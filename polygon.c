@@ -2,7 +2,7 @@
  * Maxime "Fouss" Brodat
  * maxime.brodat@utbm.fr
  *
- * Date:
+ * Date: 01/05/2015
  */
 
 /* INCLUDE */
