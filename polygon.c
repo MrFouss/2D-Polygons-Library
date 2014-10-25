@@ -8,72 +8,16 @@
  * Date: 01/05/2015
  */
 
-/* INCLUDE */
+/* ----- INCLUDE ----- */
 
 #include <stdio.h>
 #include <stdlib.h>
 
-/* TYPEDEF */
+/* ----- HEADERS ----- */
 
-/**
- * Defines a point in a 2D-plane
- * x, y - real numbers that contain the abscissa and the ordinate of the defined point
- */
-typedef struct{
-    double x;
-    double y;
-}Point;
+#include "polygon.h"
 
-/**
- * Defines each element of the polygon-linked-list
- * value - variable containing the abscissa and the ordinate of the stored point
- * prev - pointer on the previous point of the polygon
- * next - pointer on the next point of the polygon
- */
-typedef struct elem{
-    Point value;
-    int index;
-    struct elem* prev;
-    struct elem* next;
-}Element;
-
-/* Linked list that will contain a pointer to the first point of the polygon */
-typedef struct{
-    Element* head;
-    int size;
-}polygonList;
-
-/* HEADERS */
-
-/* PROTOTYPES */
-
-/**
- * Creates a 2D-Point according to the specified abscissa and ordinate
- * newX - double, abscissa coordinate
- * newY - double, ordinate coordinate
- */
-Point createPoint (double newX, double newY);
-
-/**
- * Creates an empty polygon
- */
-polygonList createPolygon ();
-
-/**
- * Adds the specified point to the specified polygon
- * polygon - polygonList, specified polygon to which we want to add a point
- * point - Point, specified point we want to add to the polygon
- */
-polygonList addPoint (Point point, polygonList polygon);
-
-/**
- * Removes a specified point from the specified polygon
- * polygon - polygonList, specified polygon on which we want to remove a point
- * i - integer, rank of the point from the head of the list of points
- */
-polygonList removePoint (polygonList polygon, int i);
-
-/* FUNCTIONS */
+/* ----- FUNCTIONS ----- */
 
 /**
  * Creates a 2D-Point according to the specified abscissa and ordinate
@@ -154,4 +98,10 @@ polygonList removePoint (polygonList polygon, int i){
     else{
         printf("The chosen point doesn't exist...");
     }
+    return polygon;
+}
+
+int main (){
+
+    return EXIT_SUCCESS;
 }
