@@ -47,10 +47,10 @@ polygonList createPolygon (){
  * point - Point, specified point we want to add to the polygon
  */
 polygonList addPoint (Point point, polygonList polygon){
-    Element* newElem = (Element*)malloc(sizeof(Element));
+    Element* newElem = (Element*)malloc(sizeof(Element)); /* memory allocation for the new element */
     newElem->value.x = point.x;
     newElem->value.y = point.y;
-    newElem->index = polygon.size + 1;
+    newElem->index = polygon.size + 1; /* the new element is at the end of the list */
     if(polygon.size == 0){
         newElem->prev = newElem;
         newElem->next = newElem;
@@ -62,7 +62,7 @@ polygonList addPoint (Point point, polygonList polygon){
         newElem->prev->next = newElem;
         newElem->next->prev = newElem;
     }
-    polygon.size++;
+    polygon.size++; /*polygon size increased */
     return polygon;
 }
 
@@ -72,36 +72,54 @@ polygonList addPoint (Point point, polygonList polygon){
  * i - integer, rank of the point from the head of the list of points
  */
 polygonList removePoint (polygonList polygon, int i){
-    if(i <= polygon.size){
+    if(i > 0 && i <= polygon.size){ /* if the chosen point does exist */
         int k=1;
-        Element* p = polygon.head;
-        Element* n = polygon.head->prev;
-        if(i==1){
-            polygon.head = p->next;
+        Element* p = polygon.head; /* pointer on the first element of the list */
+        Element* n = polygon.head->prev; /* pointer on the last element of the list */
+        if(i==1 && polygon.size != 1){
+            polygon.head = p->next; /* first element of the list changed iff the first point is targeted */
         }
         while(k<i){
             k++;
             p = p->next;
         }
-        p->next->prev = p->prev;
-        p->prev->next = p->next;
-        free(p);
         if(polygon.size != 1){
+            p->next->prev = p->prev;
+            p->prev->next = p->next;
+            free(p);
             for(k=polygon.size;k>i;k--){
                 n->index--;
                 n = n->prev;
             }
         }
+        else{
+            polygon.head = NULL;
+            free(p);
+        }
         polygon.size--;
-        printf("Point removed.");
-    }
-    else{
-        printf("The chosen point doesn't exist...");
     }
     return polygon;
 }
 
-int main (){
+/**
+ *
+ */
+void printPoint (Point point){
+    printf("[%.2f,%.2f]",point.x, point.y);
+}
 
-    return EXIT_SUCCESS;
+/**
+ *
+ */
+void printPolygon (polygonList polygon){
+    Element* p = polygon.head;
+    printf("[");
+    if(polygon.size != 0){
+        do{
+            printf("%d:",p->index);
+            printPoint(p->value);
+            p = p->next;
+        }while(p != polygon.head);
+    }
+    printf("]");
 }
