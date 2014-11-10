@@ -1,8 +1,10 @@
-/*
- *
- * Maxime "Fouss" Brodat
+/* Maxime Brodat
  * maxime.brodat@utbm.fr
  *
+ * Stéphane Perrez
+ * stephane.perrez@utbm.fr
+ *
+ * Deadline: 01/05/2015
  */
 
 #ifndef POLYGON_H
@@ -10,8 +12,7 @@
 
 /* ----- TYPEDEF ----- */
 
-/**
- * Defines a point in a 2D-plane
+/* Defines a point in a 2D-plane
  * x, y - real numbers that contain the abscissa and the ordinate of the defined point
  */
 typedef struct{
@@ -19,8 +20,7 @@ typedef struct{
     double y;
 }Point;
 
-/**
- * Defines each element of the polygon-linked-list
+/* Defines each element of the polygon-linked-list
  * value - variable containing the abscissa and the ordinate of the stored point
  * prev - pointer on the previous point of the polygon
  * next - pointer on the next point of the polygon

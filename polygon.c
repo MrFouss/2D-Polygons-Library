@@ -1,11 +1,10 @@
-/**
- * Maxime Brodat
+/* Maxime Brodat
  * maxime.brodat@utbm.fr
  *
  * Stéphane Perrez
  * stephane.perrez@utbm.fr
  *
- * Date: 01/05/2015
+ * Deadline: 01/05/2015
  */
 
 /* ----- INCLUDE ----- */

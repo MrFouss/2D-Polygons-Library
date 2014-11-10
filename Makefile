@@ -7,7 +7,7 @@ INCLUDEDIR = -I. -I/usr/include
 #Library-related macros
 LIBTARGET2 = Polygon
 LIBTARGET = libPolygon.so
-LIBSOURCE = polygon
+LIBSOURCE = polygon useful_fcts
 LIBSOURCECFILE = $(LIBSOURCE:=.c)
 LIBSOURCEOFILE = $(LIBSOURCE:=.o)
 

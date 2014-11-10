@@ -18,6 +18,7 @@
 /* HEADERS */
 
 #include "polygon.h"
+#include "useful_fcts.h"
 
 /* PROTOTYPES */
 
@@ -26,7 +27,9 @@
 int main(int argc, char *argv[]){
     double x,y;
     Point tmpPoint;
-    int bool1, choice, choice2, moveon;
+    char restart;
+    boolean moveon;
+    int choice, choice2;
     polygonList polygon1, polygon2;
 
     do{
@@ -38,7 +41,7 @@ int main(int argc, char *argv[]){
         printf("\n| Creation of the first polygon |");
         printf("\n---------------------------------");
 
-        moveon = 0;
+        moveon = FALSE;
 
         polygon1 = createPolygon();
         do{
@@ -50,6 +53,7 @@ int main(int argc, char *argv[]){
             printf("\n| 0) End the creation of the first polygon");
             printf("\n| Choice: ");
             scanf("%d",&choice);
+            fflush(stdin);
 
             switch(choice)
             {
@@ -59,8 +63,10 @@ int main(int argc, char *argv[]){
                     printf("\n\t| Coordinates of the new point:");
                     printf("\n\t|   x=");
                     scanf("%lf",&x);
+                    fflush(stdin);
                     printf("\t|   y=");
                     scanf("%lf",&y);
+                    fflush(stdin);
                     tmpPoint=createPoint(x,y);
                     printf("\t|\n\t| Point created: ");
                     printPoint(tmpPoint);
@@ -74,6 +80,7 @@ int main(int argc, char *argv[]){
                     printPolygon(polygon1);
                     printf("\n\t|\n\t| Number of the point you want to remove: ");
                     scanf("%d",&choice2);
+                    fflush(stdin);
                     polygon1=removePoint(polygon1,choice2);
                     printf("\t|");
                     break;
@@ -92,7 +99,7 @@ int main(int argc, char *argv[]){
                     printf("\n\t|");
                     break;
                 case 0:
-                    moveon = 1;
+                    moveon = TRUE;
                     break;
                 default:
                     printf("\n| Wrong input!");
@@ -102,13 +109,15 @@ int main(int argc, char *argv[]){
             printf("\n\t| Polygon 1: ");
             printPolygon(polygon1);
 
-        }while(moveon == 0);
+        }while(moveon == FALSE);
 
-	    moveon = 0;
+	    moveon = FALSE;
 
-        printf("\n\n----------------------------------");
+        printf("\n\n---------------------------------");
         printf("\n| Creation of the second polygon |");
-        printf("\n----------------------------------");
+        printf("\n---------------------------------");
+
+        moveon = FALSE;
 
         polygon2 = createPolygon();
         do{
@@ -118,56 +127,65 @@ int main(int argc, char *argv[]){
             printf("\n| 2) Remove a point");
             printf("\n| 3) Empty the polygon");
             printf("\n| 0) End the creation of the second polygon");
-            do{
-                printf("\n| Choice: ");
-                scanf("%d",&choice);
-            }while(choice != 1 && choice != 2 && choice != 3 && choice != 0);
+            printf("\n| Choice: ");
+            scanf("%d",&choice);
+            fflush(stdin);
 
-            if(choice == 1){
-                printf("\n\t| Creating a new point");
-                printf("\n\t|---------------------");
-                printf("\n\t| Coordinates of the new point:");
-                printf("\n\t|   x=");
-                scanf("%lf",&x);
-                printf("\t|   y=");
-                scanf("%lf",&y);
-                tmpPoint=createPoint(x,y);
-                printf("\t|\n\t| Point created: ");
-                printPoint(tmpPoint);
-                polygon2=addPoint(tmpPoint,polygon2);
-                printf("\n\t|");
-            }
-
-            if(choice == 2){
-                printf("\n\t| Removing a point");
-                printf("\n\t|-----------------");
-                printf("\n\t| Polygon 2: ");
-                printPolygon(polygon2);
-                printf("\n\t|\n\t| Number of the point you want to remove: ");
-                scanf("%d",&choice2);
-                polygon2=removePoint(polygon2,choice2);
-                printf("\t|");
-            }
-
-            if(choice == 3){
-                printf("\n\t| Emptying the polygon");
-                printf("\n\t|---------------------");
-                polygon2 = emptyPolygon(polygon2);
-                if(polygon2.size == 0)
-                {
-                    printf("\n\t| The polygon is now empty");
-                }
-                else
-                {
-                    printf("\n\t| An error occured while emptying the polygon");
-                }
-                printf("\n\t|");
+            switch(choice)
+            {
+                case 1:
+                    printf("\n\t| Creating a new point");
+                    printf("\n\t|---------------------");
+                    printf("\n\t| Coordinates of the new point:");
+                    printf("\n\t|   x=");
+                    scanf("%lf",&x);
+                    fflush(stdin);
+                    printf("\t|   y=");
+                    scanf("%lf",&y);
+                    fflush(stdin);
+                    tmpPoint=createPoint(x,y);
+                    printf("\t|\n\t| Point created: ");
+                    printPoint(tmpPoint);
+                    polygon2=addPoint(tmpPoint,polygon2);
+                    printf("\n\t|");
+                    break;
+                case 2:
+                    printf("\n\t| Removing a point");
+                    printf("\n\t|-----------------");
+                    printf("\n\t| Polygon 2: ");
+                    printPolygon(polygon2);
+                    printf("\n\t|\n\t| Number of the point you want to remove: ");
+                    scanf("%d",&choice2);
+                    fflush(stdin);
+                    polygon2=removePoint(polygon2,choice2);
+                    printf("\t|");
+                    break;
+                case 3:
+                    printf("\n\t| Emptying the polygon");
+                    printf("\n\t|---------------------");
+                    polygon2 = emptyPolygon(polygon1);
+                    if(polygon2.size == 0)
+                    {
+                        printf("\n\t| The polygon is now empty");
+                    }
+                    else
+                    {
+                        printf("\n\t| An error occured while emptying the polygon");
+                    }
+                    printf("\n\t|");
+                    break;
+                case 0:
+                    moveon = TRUE;
+                    break;
+                default:
+                    printf("\n| Wrong input!");
+                    break;
             }
 
             printf("\n\t| Polygon 2: ");
             printPolygon(polygon2);
 
-        }while(choice != 0);
+        }while(moveon == FALSE);
 
         printf("\n\n| Polygon 1: ");
         printPolygon(polygon1);
@@ -178,10 +196,12 @@ int main(int argc, char *argv[]){
         polygon2 = emptyPolygon(polygon2);
 
         do{
-            printf("\n|\n| Do you wanna restart? (yes=1;no=0) ");
-            scanf("%d", &bool1);
-        }while(bool1 != 1 && bool1 != 0);
-    }while(bool1);
+            printf("\n|\n| Do you want to restart? (y/n) ");
+            emptBuff();
+            scanf("%c", &restart);
+            fflush(stdin);
+        }while(restart != 'y' && restart != 'n');
+    }while(restart == 'y');
 
     printf("\n\n-------------------------------------------------");
     printf("\n|     THANKS FOR USING THIS LITTLE PROGRAM!     |");
