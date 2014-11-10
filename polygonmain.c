@@ -30,7 +30,7 @@ int main(int argc, char *argv[]){
     char restart;
     boolean moveon;
     int choice, choice2;
-    polygonList polygon1, polygon2;
+    Polygon polygon1, polygon2;
 
     do{
         printf("\n---------------------------------------------------------");
