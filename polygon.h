@@ -53,6 +53,12 @@ Point createPoint (double newX, double newY);
 polygonList createPolygon ();
 
 /**
+ * Empties a polygon's memory
+ * polygon - polygonList, specified polygon to empty
+ */
+polygonList emptyPolygon(polygonList polygon);
+
+/**
  * Adds the specified point to the specified polygon
  * polygon - polygonList, specified polygon to which we want to add a point
  * point - Point, specified point we want to add to the polygon
