@@ -12,6 +12,16 @@
 
 /* ----- TYPEDEF ----- */
 
+/* Definition of the boolean type which can take to states:
+ * TRUE - associated to an integer with the value 1
+ * FALSE - associated to an integer with the value 0
+ */
+typedef enum
+{
+    TRUE = 1,
+    FALSE = 0
+} boolean;
+
 /* Defines a point in a 2D-plane
  * x, y - real numbers that contain the abscissa and the ordinate of the defined point
  */
@@ -68,6 +78,8 @@ Polygon addPoint (Point point, Polygon polygon);
  * i - integer, rank of the point we want to remove from the head of the list of points
  */
 Polygon removePoint (Polygon polygon, int i);
+
+
 
 /* Displays the coordinates of the specified point
  * point - Point, specified point to display

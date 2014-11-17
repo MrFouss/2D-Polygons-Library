@@ -146,6 +146,9 @@ Polygon removePoint (Polygon polygon, int i)
     return polygon;
 }
 
+
+
+
 /* Displays the coordinates of the specified point
  * point - Point, specified point to display
  */

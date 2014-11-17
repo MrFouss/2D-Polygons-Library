@@ -12,15 +12,7 @@
 
 /* ----- TYPEDEF ----- */
 
-/* Definition of the boolean type which can take to states:
- * TRUE - associated to an integer with the value 1
- * FALSE - associated to an integer with the value 0
- */
-typedef enum
-{
-    TRUE = 1,
-    FALSE = 0
-} boolean;
+
 
 /* ----- PROTOTYPES ----- */
 
