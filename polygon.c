@@ -162,10 +162,61 @@ Polygon removePoint (Polygon polygon, int i)
  * Shows if a point is contained within a polygon
  * polygon - polygon in which we want to know if the point is included
  * point - point we want to know if included or not in the polygon
+ * isContained - boolean, TRUE if the point is inside the polygon, false otherwise
  */
 boolean containsPoint (Polygon polygon, Point point)
 {
+    int count = 0;
+    float positionOfPoint;
+    Element* p = polygon.head;
 
+    do
+    {
+        /**
+         * Tests where the point is, compared to the two selected points of the polygon
+         * < 0 : to the right of the line
+         * > 0 : to the left of the line
+         * = 0 : on the line
+         */
+        positionOfPoint = (p->next->value.x - p->value.x) * (point.y - p->value.y) - (point.x -  p->value.x) * (p->next->value.y - p->value.y);
+
+        if(positionOfPoint == 0)
+        {
+            return TRUE;
+        }
+
+        if(p->value.y <= point.y)
+        {
+            if(p->next->value.y > point.y)
+            {
+                if(positionOfPoint > 0)
+                {
+                    count++;
+                }
+            }
+        }
+        else
+        {
+            if(p->next->value.y <= point.y)
+            {
+                if(positionOfPoint < 0)
+                {
+                    count--;
+                }
+            }
+        }
+
+    p = p->next;
+    } while(p != polygon.head);
+
+    if(count != 0)
+    {
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
 }
 
 /**
