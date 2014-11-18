@@ -1,49 +1,56 @@
-/* Maxime Brodat
+/**
+ * Maxime Brodat
  * maxime.brodat@utbm.fr
+ * contact@fouss.fr
  *
  * Stéphane Perrez
- * stephane.perrez@utbm.fr
+ * stéphane.perrez@utbm.fr
  *
- * Deadline: 01/05/2015
+ * Deadline of the project: 01/05/2015
  */
+
 
 /* ----- INCLUDE ----- */
 
 #include <stdio.h>
 #include <stdlib.h>
-
-/* ----- HEADERS ----- */
-
-#include "polygon.h"
+#include <polygon.h>
 
 /* ----- FUNCTIONS ----- */
 
-/* Creates a 2D-Point according to the specified abscissa and ordinate
- * newX - double, abscissa coordinate
- * newY - double, ordinate coordinate
- * newPoint - newly created point
+/**
+ * Creates a 2D-Point according to the Point data type
+ *     newX - abscissa coordinate
+ *     newY - ordinate coordinate
+ *     newPoint - newly created point
  */
 Point createPoint (double newX, double newY)
 {
     Point newPoint;
+
     newPoint.x = newX;
     newPoint.y = newY;
+
     return newPoint;
 }
 
-/* Creates an empty polygon
- * newPolygon - Polygon, newly created empty polygon
+/**
+ * Creates an empty polygon
+ * newPolygon - newly created empty polygon
  */
 Polygon createPolygon ()
 {
     Polygon newPolygon;
+
     newPolygon.head = NULL;
     newPolygon.size = 0;
+
     return newPolygon;
 }
 
-/* Empties a polygon's data
- * polygon - Polygon, specified polygon to empty
+/**
+ * Empties a polygon's data
+ * polygon - specified polygon to empty
  */
 Polygon emptyPolygon(Polygon polygon)
 {
@@ -71,13 +78,15 @@ Polygon emptyPolygon(Polygon polygon)
     return polygon;
 }
 
-/* Adds the specified point to the specified polygon
- * polygon - Polygon, specified polygon to which we want to add a point
- * point - Point, specified point we want to add to the polygon
+/**
+ * Adds the specified point at the end of the specified polygon
+ * polygon - polygon to which we want to add a point
+ * point - point we want to add at the end of the polygon
  */
 Polygon addPoint (Point point, Polygon polygon)
 {
     Element* newElem = (Element*)malloc(sizeof(Element)); /* memory allocation for the new element */
+
     newElem->value = point;
     newElem->index = polygon.size + 1; /* the new element will be putted at the end of the list */
 
@@ -97,12 +106,14 @@ Polygon addPoint (Point point, Polygon polygon)
     }
 
     polygon.size++; /* polygon's size is increased */
+
     return polygon;
 }
 
-/* Removes a specified point from the specified polygon
- * polygon - Polygon, specified polygon on which we want to remove a point
- * i - integer, rank of the point from the head of the list of points
+/**
+ * Removes a specified point from the specified polygon
+ * polygon - polygon for which we want to remove a point
+ * i - index of the point we want to remove
  */
 Polygon removePoint (Polygon polygon, int i)
 {
@@ -143,22 +154,22 @@ Polygon removePoint (Polygon polygon, int i)
 
         polygon.size--; /* polygon size is decreased */
     }
+
     return polygon;
 }
 
-
-
-
-/* Displays the coordinates of the specified point
- * point - Point, specified point to display
+/**
+ * Displays int the console the coordinates of the specified point
+ * point - point containing the coordinates to display
  */
 void printPoint (Point point)
 {
     printf("[%.2f,%.2f]",point.x, point.y);
 }
 
-/* Displays the coordinates of all the points of a specified polygon
- * polygon - Polygon, specified polygon to display
+/**
+ * Displays the coordinates of all points of a specified polygon
+ * polygon - specified polygon to display
  */
 void printPolygon (Polygon polygon)
 {
@@ -181,3 +192,10 @@ void printPolygon (Polygon polygon)
 
     printf("]");
 }
+
+/**
+ * Stores the coordinates of all points of a specified polygon in an array of characters
+ * polygon - specified polygon containing the coordinates to store
+ * coordString - array of characters, dynamically allocated
+ */
+/* char* toString (polygonList polygon); */

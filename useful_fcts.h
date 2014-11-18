@@ -1,18 +1,18 @@
-/* Maxime Brodat
+/**
+ * Maxime Brodat
  * maxime.brodat@utbm.fr
+ * contact@fouss.fr
  *
  * Stéphane Perrez
- * stephane.perrez@utbm.fr
+ * stéphane.perrez@utbm.fr
  *
- * Deadline: 01/05/2015
+ * Deadline of the project: 01/05/2015
  */
 
 #ifndef USEFUL_FCTS_H
 #define USEFUL_FCTS_H
 
 /* ----- TYPEDEF ----- */
-
-
 
 /* ----- PROTOTYPES ----- */
 

@@ -1,10 +1,12 @@
-/* Maxime Brodat
+/**
+ * Maxime Brodat
  * maxime.brodat@utbm.fr
+ * contact@fouss.fr
  *
  * Stéphane Perrez
- * stephane.perrez@utbm.fr
+ * stéphane.perrez@utbm.fr
  *
- * Deadline: 01/05/2015
+ * Deadline of the project: 01/05/2015
  */
 
 #ifndef POLYGON_H
@@ -12,86 +14,96 @@
 
 /* ----- TYPEDEF ----- */
 
-/* Definition of the boolean type which can take to states:
- * TRUE - associated to an integer with the value 1
- * FALSE - associated to an integer with the value 0
+/**
+ * Data type of a point in a 2D-plane with the following specifications:
+ *     x - real number containing the abscissa of the point
+ *     y - real number containing the ordinate of the point
  */
-typedef enum
+typedef struct
 {
-    TRUE = 1,
-    FALSE = 0
-} boolean;
-
-/* Defines a point in a 2D-plane
- * x, y - real numbers that contain the abscissa and the ordinate of the defined point
- */
-typedef struct{
     double x;
     double y;
-}Point;
+} Point;
 
-/* Defines each element of the polygon-linked-list
- * value - variable containing the abscissa and the ordinate of the stored point
- * prev - pointer on the previous point of the polygon
- * next - pointer on the next point of the polygon
+/**
+ * Data type of an element of the polygon-linked-list with the following specifications:
+ *     value - Point data type with the abscissa and ordinate of the point
+ *     index - index of the point contained in the polygon
+ *     prev - pointer on the previous element of the polygon
+ *     next - pointer on the next element of the polygon
  */
-typedef struct elem{
+typedef struct elem
+{
     Point value;
     int index;
     struct elem* prev;
     struct elem* next;
-}Element;
+} Element;
 
-/* Linked list that will contain a pointer to the first point of the polygon */
-typedef struct{
+/**
+ * Data type of a polygon defined as a linked list containing the elements defined above
+ * This data type is defined with the following specifications:
+ *     head - pointer on the first element of the polygon
+ *     size - number of elements within the polygon
+ */
+typedef struct
+{
     Element* head;
     int size;
-}Polygon;
+} Polygon;
 
 /* ----- PROTOTYPES ----- */
 
-/* Creates a 2D-Point according to the specified abscissa and ordinate
- * newX - double, abscissa coordinate
- * newY - double, ordinate coordinate
- * newPoint - newly created point
+/**
+ * Creates a 2D-Point according to the Point data type
+ *     newX - abscissa coordinate
+ *     newY - ordinate coordinate
+ *     newPoint - newly created point
  */
 Point createPoint (double newX, double newY);
 
-/* Creates an empty polygon
- * newPolygon - Polygon, newly created empty polygon
+/**
+ * Creates an empty polygon
+ * newPolygon - newly created empty polygon
  */
 Polygon createPolygon ();
 
-/* Empties a polygon's data
- * polygon - Polygon, specified polygon to empty
+/**
+ * Empties a polygon's data
+ * polygon - specified polygon to empty
  */
 Polygon emptyPolygon(Polygon polygon);
 
-/* Adds the specified point to the specified polygon
- * polygon - Polygon, specified polygon to which we want to add a point
- * point - Point, specified point we want to add to the polygon
+/**
+ * Adds the specified point at the end of the specified polygon
+ * polygon - polygon to which we want to add a point
+ * point - point we want to add at the end of the polygon
  */
 Polygon addPoint (Point point, Polygon polygon);
 
-/* Removes a specified point from the specified polygon
- * polygon - Polygon, specified polygon on which we want to remove a point
- * i - integer, rank of the point we want to remove from the head of the list of points
+/**
+ * Removes a specified point from the specified polygon
+ * polygon - polygon for which we want to remove a point
+ * i - index of the point we want to remove
  */
 Polygon removePoint (Polygon polygon, int i);
 
-
-
-/* Displays the coordinates of the specified point
- * point - Point, specified point to display
+/**
+ * Displays int the console the coordinates of the specified point
+ * point - point containing the coordinates to display
  */
 void printPoint (Point point);
 
-/* Displays the coordinates of all the points of a specified polygon
- * polygon - Polygon, specified polygon to display
+/**
+ * Displays the coordinates of all points of a specified polygon
+ * polygon - specified polygon to display
  */
 void printPolygon (Polygon polygon);
 
-/*
+/**
+ * Stores the coordinates of all points of a specified polygon in an array of characters
+ * polygon - specified polygon containing the coordinates to store
+ * coordString - array of characters, dynamically allocated
  */
 /* char* toString (polygonList polygon); */
 

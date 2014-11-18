@@ -1,10 +1,12 @@
-/* Maxime Brodat
+/**
+ * Maxime Brodat
  * maxime.brodat@utbm.fr
+ * contact@fouss.fr
  *
  * Stéphane Perrez
- * stephane.perrez@utbm.fr
+ * stéphane.perrez@utbm.fr
  *
- * Deadline: 01/05/2015
+ * Deadline of the project: 01/05/2015
  */
 
 /* ----- INCLUDE ----- */
@@ -12,20 +14,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* ----- TYPEDEF ----- */
-
-/* ----- HEADERS ----- */
-
-/* ----- PROTOTYPES ----- */
-
 /* ----- FUNCTIONS ----- */
 
 /* Function that empties the input buffer */
 void emptBuff ()
 {
     int c;
+
     do
     {
         c = getchar();
     } while (c != '\n' && c != EOF); /* it empties the buffer by reading it */
+
 }
