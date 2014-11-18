@@ -159,6 +159,16 @@ Polygon removePoint (Polygon polygon, int i)
 }
 
 /**
+ * Shows if a point is contained within a polygon
+ * polygon - polygon in which we want to know if the point is included
+ * point - point we want to know if included or not in the polygon
+ */
+boolean containsPoint (Polygon polygon, Point point)
+{
+
+}
+
+/**
  * Displays int the console the coordinates of the specified point
  * point - point containing the coordinates to display
  */
