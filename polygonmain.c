@@ -207,6 +207,76 @@ int main(int argc, char *argv[])
         printf("\n| Polygon 2: ");
         printPolygon(polygon2);
 
+        printf("\n\n---------------------------------");
+        printf("\n| Let's play with the polygons! |");
+        printf("\n---------------------------------");
+
+        moveon = FALSE;
+
+        do
+        {
+            printf("\n\n| What do you want to do?");
+            printf("\n|------------------------");
+            printf("\n| 1) Test if a point is inside a polygon");
+            printf("\n| 0) I don't want to play with the polygons anymore...");
+            printf("\n| Choice: ");
+            scanf("%d",&choice);
+            emptBuff();
+
+            switch(choice)
+            {
+                case 1:
+                    printf("\n\t| Is this point inside or not the polygons?");
+                    printf("\n\t|------------------------------------------");
+                    printf("\n\t| Coordinates of the point to test:");
+                    printf("\n\t|   x=");
+                    scanf("%lf",&x);
+                    emptBuff();
+                    printf("\t|   y=");
+                    scanf("%lf",&y);
+                    emptBuff();
+                    tmpPoint=createPoint(x,y);
+                    printf("\t|\n\t| Point chosen: ");
+                    printPoint(tmpPoint);
+                    printf("\n\t|");
+
+                    if(containsPoint(polygon1,tmpPoint))
+                    {
+                        printf("\n\t| The point is inside the first polygon!");
+                    }
+                    else
+                    {
+                        printf("\n\t| The point is outside the first polygon.");
+                    }
+                    if(containsPoint(polygon2,tmpPoint))
+                    {
+                        printf("\n\t| The point is inside the second polygon!");
+                    }
+                    else
+                    {
+                        printf("\n\t| The point is outside the second polygon.");
+                    }
+                    printf("\n\t|");
+
+                    break;
+
+                case 0:
+                    moveon = TRUE;
+                    break;
+
+                default:
+                    printf("\n| Wrong input!");
+                    break;
+            }
+
+            printf("\n\t| Polygon 1: ");
+            printPolygon(polygon1);
+
+            printf("\n\t| Polygon 2: ");
+            printPolygon(polygon2);
+
+        } while(moveon == FALSE);
+
         polygon1 = emptyPolygon(polygon1);
         polygon2 = emptyPolygon(polygon2);
 
