@@ -18,12 +18,13 @@
 
 typedef enum
 {
-    ERROR = -1,
-    OUTSIDE = 0,
-    INSIDE = 1,
-    INTERSECT = 2,
-    ENCLOSING = 3,
-    EQUAL = 4
+    ERROR = -1, /* if some Polygon is not a polygon : less than 3 points */
+    OUTSIDE = 0, /* if the second polygon is fully outside the first one */
+    INSIDE = 1, /* if the second polygon is fully inside the first one */
+    INTERSECT = 2, /* if the second polygon is partially inside/outside the first
+one, in other words intersecting the second one */
+    ENCLOSING = 3, /* if the first polygon is fully inside the second one */
+    EQUAL = 4 /* both polygons are exactly equal */
 } Status;
 
 

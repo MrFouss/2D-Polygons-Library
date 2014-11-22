@@ -314,6 +314,38 @@ Boolean isOnTheLine (Point A, Point B, Point P)
         return FALSE;
     }
 
+/**
+ * Shows if a polygon is inside, outside, equal, intersecting or enclosing an other polygon
+ * p1, p2 - the two polygons tested
+ * Returns the corresponding value of Status, and error if one of the polygons is not valid (less than 3 points)
+ */
+Status containsPolygon (Polygon p1, Polygon p2)
+{
+    if (p1.size == 0 || p2.size == 0){
+        return ERROR;
+    }
+    else
+    {
+        int insides, outsides; /* To count the number of points of p1 inside/outside p2 */
+        int i; /* increment for loops */
+        Element* point; /* To go trough p1 */
+
+        point = p1.head;
+        for( i = 1; i <= p1.size; i++)
+        {
+           if (containsPoint(p2, point->value))
+           {
+                insides++;
+           }
+           else
+           {
+                outsides++;
+           }
+        }
+
+    }
+}
+
 
 /**
  * Displays int the console the coordinates of the specified point

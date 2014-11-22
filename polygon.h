@@ -97,6 +97,7 @@ Polygon removePoint (Polygon polygon, int i);
  * Shows if a point is contained within a polygon
  * polygon - polygon in which we want to know if the point is included
  * point - point we want to know if included or not in the polygon
+ * Returns TRUE if the point is inside the polygon, false otherwise
  */
 Boolean containsPoint (Polygon polygon, Point point);
 
@@ -107,6 +108,13 @@ Boolean containsPoint (Polygon polygon, Point point);
  * Returns TRUE if P is on [A,B], false otherwise
  */
 Boolean isOnTheLine (Point A, Point B, Point P);
+
+/**
+ * Shows if a polygon is inside, outside, equal, intersecting or enclosing an other polygon
+ * p1, p2 - the two polygons tested
+ * Returns the corresponding value of Status, and error if one of the polygons is not valid (less than 3 points)
+ */
+Status containsPolygon (Polygon p1, Polygon p2);
 
 /**
  * Displays int the console the coordinates of the specified point
