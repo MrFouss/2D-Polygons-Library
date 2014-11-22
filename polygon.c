@@ -162,119 +162,158 @@ Polygon removePoint (Polygon polygon, int i)
  * Shows if a point is contained within a polygon
  * polygon - polygon in which we want to know if the point is included
  * point - point we want to know if included or not in the polygon
- * isContained - boolean, TRUE if the point is inside the polygon, false otherwise
+ * isContained - Boolean, TRUE if the point is inside the polygon, false otherwise
  */
-boolean containsPoint (Polygon polygon, Point point)
+Boolean containsPoint (Polygon polygon, Point point)
 {
-    /*int count = 0;
-    float positionOfPoint;
-    Element* p = polygon.head;
+    if(polygon.size < 3)
+    {
+        return FALSE;
+    }
 
-    do
-    {*/
+    else
+    {
+        int crossings = 0;
+        Element* p = polygon.head;
+        double slope;
+        Boolean condition, above;
+        do
+        {
+            /**
+             * In this loop, we are working with 2 consecutive points (let's call them A and B)
+             * of the polygon creating a segment [A,B].
+             * We want to check for all A and B of the polygon if or not an infinite ray coming
+             * from the studied point does or not cross each segment [A,B].
+             * We count how many times it does cross each segment, in the variable "crossings".
+             *
+             * If "crossings" is odd, that means the studied point is inside the polygon.
+             * Otherwise, the studied point is outside the polygon.
+             *
+             * We also suppose that if a point is on a side of the polygon, it's considered
+             * as contained by polygon.
+             */
+
+            if(isOnTheLine(p->value, p->next->value, point))
+            {
+                return TRUE;
+            }
+
+            condition = FALSE;
+            above = FALSE;
+
+            slope = (p->next->value.y - p->value.y) / (p->next->value.x - p->value.x);
+
+            /* In the two next tests, we want to know the position of the two points of the polygon */
+
+            if((p->value.x <= point.x) && (point.x < p->next->value.x))
+            /**
+             * If A is to the left of the studied point
+             *  AND
+             * if B is to the right of the studied point
+             */
+            {
+                condition = TRUE;
+            }
+            else
+            {
+                if((p->next->value.x <= point.x) && (point.x < p->value.x))
+                /**
+                 * If A is to the right of the studied point
+                 *  AND
+                 * if B is to the left of the studied point
+                 */
+                {
+                    condition = TRUE;
+                }
+            }
+
+            /* Tests if [A,B] is above the studied point, using the slope of [A,B] */
+            if(point.y < ((slope * (point.x - p->value.x)) + p->value.y))
+            {
+                above = TRUE;
+            }
+
+            if(condition && above)
+            {
+                crossings++;
+            }
+
+            p = p->next;
+        } while(p != polygon.head);
+
+        return (crossings % 2);
+    }
+}
+
+/**
+ * Checks if a point is or not on a finite line
+ * A and B define the segment to check
+ * P is the point to check
+ * Returns TRUE if P is on [A,B], false otherwise
+ */
+Boolean isOnTheLine (Point A, Point B, Point P)
+{
+    Boolean colinear = FALSE, middleX = FALSE, middleY = FALSE;
+
+    if((A.x <= P.x) && (P.x <= B.x))
+    /**
+     * If A is to the left of the studied point
+     *  AND
+     * if B is to the right of the studied point
+     */
+    {
+        middleX = TRUE;
+    }
+    else
+    {
+        if((B.x <= P.x) && (P.x <= A.x))
         /**
-         * Tests where the point is, compared to the two selected points of the polygon
-         * < 0 : to the right of the line
-         * > 0 : to the left of the line
-         * = 0 : on the line
+         * If A is to the right of the studied point
+         *  AND
+         * if B is to the left of the studied point
          */
-        /*positionOfPoint = (p->next->value.x - p->value.x) * (point.y - p->value.y) - (point.x -  p->value.x) * (p->next->value.y - p->value.y);
-
-        if(p->value.y <= point.y)
         {
-            if(p->next->value.y > point.y)
-            {
-                if(positionOfPoint > 0)
-                {
-                    count++;
-                }
-            }
+            middleX = TRUE;
         }
-        else
+    }
+
+    if((A.y <= P.y) && (P.y <= B.y))
+    /**
+     * If A is below the studied point
+     *  AND
+     * if B is above the studied point
+     */
+    {
+        middleY = TRUE;
+    }
+    else
+    {
+        if((B.y <= P.y) && (P.y <= A.y))
+        /**
+         * If A is above the studied point
+         *  AND
+         * if B is below the studied point
+         */
         {
-            if(p->next->value.y <= point.y)
-            {
-                if(positionOfPoint < 0)
-                {
-                    count--;
-                }
-            }
+            middleY = TRUE;
         }
+    }
 
-    p = p->next;
-    } while(p != polygon.head);
+    if(((P.y - A.y)*(P.x - B.x)) == ((P.y - B.y)*(P.x - A.x)))
+    /* If it's equal, then the three points are aligned */
+    {
+        colinear = TRUE;
+    }
 
-    if(count != 0)
+    if(middleX && middleY && colinear)
     {
         return TRUE;
     }
     else
     {
         return FALSE;
-    }*/
+    }
 
-    int crossings = 0;
-    Element* p = polygon.head;
-    double slope;
-    boolean condition, above;
-    do
-    {
-        /**
-         * In this loop, we are working with 2 consecutive points (let's call them A and B)
-         * of the polygon creating a segment [A,B].
-         * We want to check for all A and B of the polygon if or not an infinite ray coming
-         * from the studied point does or not cross each segment [A,B].
-         * We count how many times it does cross each segment, in the variable "crossings".
-         *
-         * If "crossings" is odd, that means the studied point is inside the polygon.
-         * Otherwise, the studied point is outside the polygon.
-         */
-
-        condition = FALSE;
-        above = FALSE;
-
-        slope = (p->next->value.y - p->value.y) / (p->next->value.x - p->value.x);
-
-        /* In the two next tests, we want to know the position of the two points of the polygon */
-
-        if((p->value.x <= point.x) && (point.x < p->next->value.x))
-        /**
-         * If A is to the left of the studied point
-         *  AND
-         * if B is to the right of the studied point
-         */
-        {
-            condition = TRUE;
-        }
-        else
-        {
-            if((p->next->value.x <= point.x) && (point.x < p->value.x))
-            /**
-             * If A is to the right of the studied point
-             *  AND
-             * if B is to the left of the studied point
-             */
-            {
-                condition = TRUE;
-            }
-        }
-
-        /* Tests if [A,B] is above the studied point, using the slope of [A,B] */
-        if(point.y < ((slope * (point.x - p->value.x)) + p->value.y))
-        {
-            above = TRUE;
-        }
-
-        if(condition && above)
-        {
-            crossings++;
-        }
-
-        p = p->next;
-    } while(p != polygon.head);
-
-    return (crossings % 2);
-}
 
 /**
  * Displays int the console the coordinates of the specified point

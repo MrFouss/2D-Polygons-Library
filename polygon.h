@@ -15,6 +15,7 @@
 /* ----- INCLUDE ----- */
 
 #include <boolean.h>
+#include <status_enum.h>
 
 /* ----- TYPEDEF ----- */
 
@@ -97,7 +98,15 @@ Polygon removePoint (Polygon polygon, int i);
  * polygon - polygon in which we want to know if the point is included
  * point - point we want to know if included or not in the polygon
  */
-boolean containsPoint (Polygon polygon, Point point);
+Boolean containsPoint (Polygon polygon, Point point);
+
+/**
+ * Checks if a point is or not on a finite line
+ * A and B define the segment to check
+ * P is the point to check
+ * Returns TRUE if P is on [A,B], false otherwise
+ */
+Boolean isOnTheLine (Point A, Point B, Point P);
 
 /**
  * Displays int the console the coordinates of the specified point

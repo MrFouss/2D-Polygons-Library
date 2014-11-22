@@ -72,7 +72,8 @@ int main(int argc, char *argv[])
                     printf("\t|\n\t| Point created: ");
                     printPoint(tmpPoint);
                     polygon1=addPoint(tmpPoint,polygon1);
-                    printf("\n\t|");
+                    printf("\n\t|\n\t| Polygon 1: ");
+                    printPolygon(polygon1);
                     break;
 
                 case 2:
@@ -84,7 +85,8 @@ int main(int argc, char *argv[])
                     scanf("%d",&choice2);
                     emptBuff();
                     polygon1=removePoint(polygon1,choice2);
-                    printf("\t|");
+                    printf("\t|\n\t| Polygon 1: ");
+                    printPolygon(polygon1);
                     break;
 
                 case 3:
@@ -101,20 +103,20 @@ int main(int argc, char *argv[])
                         printf("\n\t| An error occured while emptying the polygon");
                     }
 
-                    printf("\n\t|");
+                    printf("\n\t|\n\t| Polygon 1: ");
+                    printPolygon(polygon1);
                     break;
 
                 case 0:
                     moveon = TRUE;
+                    printf("\n| Polygon 1: ");
+                    printPolygon(polygon1);
                     break;
 
                 default:
                     printf("\n| Wrong input!");
                     break;
             }
-
-            printf("\n\t| Polygon 1: ");
-            printPolygon(polygon1);
 
         } while(moveon == FALSE);
 
@@ -156,7 +158,8 @@ int main(int argc, char *argv[])
                     printf("\t|\n\t| Point created: ");
                     printPoint(tmpPoint);
                     polygon2=addPoint(tmpPoint,polygon2);
-                    printf("\n\t|");
+                    printf("\n\t|\n\t| Polygon 2: ");
+                    printPolygon(polygon2);
                     break;
 
                 case 2:
@@ -168,7 +171,8 @@ int main(int argc, char *argv[])
                     scanf("%d",&choice2);
                     emptBuff();
                     polygon2=removePoint(polygon2,choice2);
-                    printf("\t|");
+                    printf("\t|\n\t| Polygon 2: ");
+                    printPolygon(polygon2);
                     break;
 
                 case 3:
@@ -185,20 +189,20 @@ int main(int argc, char *argv[])
                         printf("\n\t| An error occured while emptying the polygon");
                     }
 
-                    printf("\n\t|");
+                    printf("\n\t|\n\t| Polygon 2: ");
+                    printPolygon(polygon2);
                     break;
 
                 case 0:
                     moveon = TRUE;
+                    printf("\n| Polygon 2: ");
+                    printPolygon(polygon2);
                     break;
 
                 default:
                     printf("\n| Wrong input!");
                     break;
             }
-
-            printf("\n\t| Polygon 2: ");
-            printPolygon(polygon2);
 
         } while(moveon == FALSE);
 
@@ -269,10 +273,10 @@ int main(int argc, char *argv[])
                     break;
             }
 
-            printf("\n\t| Polygon 1: ");
+            printf("\n| Polygon 1: ");
             printPolygon(polygon1);
 
-            printf("\n\t| Polygon 2: ");
+            printf("\n| Polygon 2: ");
             printPolygon(polygon2);
 
         } while(moveon == FALSE);
@@ -282,7 +286,7 @@ int main(int argc, char *argv[])
 
         do
         {
-            printf("\n|\n| Do you want to restart? (y/n) ");
+            printf("\n\n| Do you want to restart the whole program? (y/n) ");
             scanf("%c", &restart);
             emptBuff();
         } while(restart != 'y' && restart != 'n');
