@@ -1,6 +1,6 @@
 # Maxime Brodat
 # maxime.brodat@utbm.fr
-# contact@fouss.fr
+# maxime.brodat@fouss.fr
 #
 # Stéphane Perrez
 # stéphane.perrez@utbm.fr

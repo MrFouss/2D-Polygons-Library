@@ -1,7 +1,7 @@
 /**
  * Maxime Brodat
  * maxime.brodat@utbm.fr
- * contact@fouss.fr
+ * maxime.brodat@fouss.fr
  *
  * Stéphane Perrez
  * stéphane.perrez@utbm.fr
@@ -20,9 +20,9 @@
 
 /**
  * Creates a 2D-Point according to the Point data type
- *     newX - abscissa coordinate
- *     newY - ordinate coordinate
- *     newPoint - newly created point
+ * newX - abscissa coordinate
+ * newY - ordinate coordinate
+ * Returns the newly created point
  */
 Point createPoint (double newX, double newY)
 {
@@ -36,7 +36,7 @@ Point createPoint (double newX, double newY)
 
 /**
  * Creates an empty polygon
- * newPolygon - newly created empty polygon
+ * Returns the newly created empty polygon
  */
 Polygon createPolygon ()
 {
@@ -51,6 +51,7 @@ Polygon createPolygon ()
 /**
  * Empties a polygon's data
  * polygon - specified polygon to empty
+ * Returns the empty polygon
  */
 Polygon emptyPolygon(Polygon polygon)
 {
@@ -82,6 +83,7 @@ Polygon emptyPolygon(Polygon polygon)
  * Adds the specified point at the end of the specified polygon
  * polygon - polygon to which we want to add a point
  * point - point we want to add at the end of the polygon
+ * Returns the polygon containing the new point
  */
 Polygon addPoint (Point point, Polygon polygon)
 {
@@ -114,6 +116,7 @@ Polygon addPoint (Point point, Polygon polygon)
  * Removes a specified point from the specified polygon
  * polygon - polygon for which we want to remove a point
  * i - index of the point we want to remove
+ * Returns the polygon without the specified point
  */
 Polygon removePoint (Polygon polygon, int i)
 {
@@ -159,10 +162,42 @@ Polygon removePoint (Polygon polygon, int i)
 }
 
 /**
+ * Checks if a polygon is really a polygon
+ * polygon - list of points to test
+ * Returns TRUE if the argument is really a polygon, FALSE otherwise
+ */
+Boolean isPolygon (Polygon polygon)
+{
+    Element* p;
+    Boolean collinear = TRUE;
+
+    if(polygon.size >= 3)
+    {
+        p = polygon.head;
+
+        do{
+            if(((p->next->next->value.y - p->value.y)*(p->next->next->value.x - p->next->value.x)) != ((p->next->next->value.y - p->next->value.y)*(p->next->next->value.x - p->value.x)))
+            {
+                collinear = FALSE;
+            }
+        } while (p != polygon.head);
+    }
+
+    if((polygon.size >= 3) && (collinear == FALSE))
+    {
+        return TRUE;
+    }
+    else
+    {
+        return FALSE;
+    }
+}
+
+/**
  * Shows if a point is contained within a polygon
  * polygon - polygon in which we want to know if the point is included
  * point - point we want to know if included or not in the polygon
- * isContained - Boolean, TRUE if the point is inside the polygon, false otherwise
+ * Returns TRUE if the point is inside the polygon, FALSE otherwise
  */
 Boolean containsPoint (Polygon polygon, Point point)
 {
@@ -247,13 +282,13 @@ Boolean containsPoint (Polygon polygon, Point point)
 
 /**
  * Checks if a point is or not on a finite line
- * A and B define the segment to check
- * P is the point to check
- * Returns TRUE if P is on [A,B], false otherwise
+ * A, B - define the segment [A,B] to check
+ * P - point to check
+ * Returns TRUE if P is on [A,B], FALSE otherwise
  */
 Boolean isOnTheLine (Point A, Point B, Point P)
 {
-    Boolean colinear = FALSE, middleX = FALSE, middleY = FALSE;
+    Boolean collinear = FALSE, middleX = FALSE, middleY = FALSE;
 
     if((A.x <= P.x) && (P.x <= B.x))
     /**
@@ -302,10 +337,10 @@ Boolean isOnTheLine (Point A, Point B, Point P)
     if(((P.y - A.y)*(P.x - B.x)) == ((P.y - B.y)*(P.x - A.x)))
     /* If it's equal, then the three points are aligned */
     {
-        colinear = TRUE;
+        collinear = TRUE;
     }
 
-    if(middleX && middleY && colinear)
+    if(middleX && middleY && collinear)
     {
         return TRUE;
     }
@@ -313,6 +348,7 @@ Boolean isOnTheLine (Point A, Point B, Point P)
     {
         return FALSE;
     }
+}
 
 /**
  * Shows if a polygon is inside, outside, equal, intersecting or enclosing an other polygon
@@ -385,6 +421,6 @@ void printPolygon (Polygon polygon)
 /**
  * Stores the coordinates of all points of a specified polygon in an array of characters
  * polygon - specified polygon containing the coordinates to store
- * coordString - array of characters, dynamically allocated
+ * Returns the array of characters, dynamically allocated, containing the coordinates of the polygon
  */
 /* char* toString (polygonList polygon); */
