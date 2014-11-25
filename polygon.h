@@ -97,6 +97,13 @@ Polygon addPoint (Point point, Polygon polygon);
 Polygon removePoint (Polygon polygon, int i);
 
 /**
+ * Checks if two points have the same coordinates
+ * po1, po2 - the two points checked
+ * Returns TRUE if the points are equal and FALSE otherwise
+ */
+Boolean arePointsEqual(Point po1, Point po2);
+
+/**
  * Checks if a polygon is really a polygon
  * polygon - list of points to test
  * Returns TRUE if the argument is really a polygon, FALSE otherwise

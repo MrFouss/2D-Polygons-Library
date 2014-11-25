@@ -161,6 +161,21 @@ Polygon removePoint (Polygon polygon, int i)
     return polygon;
 }
 
+
+/**
+ * Checks if two points have the same coordinates
+ * po1, po2 - the two points checked
+ * Returns TRUE if the points are equal and FALSE otherwise
+ */
+Boolean arePointsEqual(Point po1, Point po2)
+{
+    if(po1.x == po2.x && po1.y == po2.y)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
 /**
  * Checks if a polygon is really a polygon
  * polygon - list of points to test
@@ -357,16 +372,14 @@ Boolean isOnTheLine (Point A, Point B, Point P)
  */
 Status containsPolygon (Polygon p1, Polygon p2)
 {
-    if (p1.size == 0 || p2.size == 0){
-        return ERROR;
-    }
-    else
+    if (isPolygon(p1) && isPolygon(p2))
     {
         int insides, outsides; /* To count the number of points of p1 inside/outside p2 */
         int i; /* increment for loops */
         Element* point; /* To go trough p1 */
-
         point = p1.head;
+        insides = 0;
+        outsides = 0;
         for( i = 1; i <= p1.size; i++)
         {
            if (containsPoint(p2, point->value))
@@ -377,9 +390,60 @@ Status containsPolygon (Polygon p1, Polygon p2)
            {
                 outsides++;
            }
+           point = point->next;
         }
-
+        if(outsides == 0) /* all the points are then inside p2 */
+        {
+            if( p1.size == p2.size )/* testing if the polygons are equals */
+            {
+                point = p1.head;
+                do
+                {
+                    point = point->next;
+                }while( arePointsEqual(point->value, p2.head->value) && point != p1.head);
+                if (point == p2.head)
+                {
+                    Element* point2;
+                    do
+                    {
+                        point = point->next;
+                        point2 = point2->next;
+                    }while(arePointsEqual(point->value, point2->value) && point2 != p2.head);
+                    if(point2 == p2.head)
+                    {
+                        return EQUAL;
+                    }
+                }
+            }
+            return INSIDE;
+        }
+        if( insides == 0) /* all the points are outside p2 */
+        {
+            /* we need to check if p2 is in p1 */
+            point = p2.head;
+            insides = 0;
+            outsides = 0;
+            for( i = 1; i <= p2.size; i++)
+            {
+               if (containsPoint(p1, point->value))
+               {
+                    insides++;
+               }
+               else
+               {
+                    outsides++;
+               }
+               point = point->next;
+            }
+            if( outsides == 0) /* all the points of p2 are inside p1 */
+            {
+                return ENCLOSING;
+            }
+            return OUTSIDE;
+        }
+        return INTERSECT;
     }
+    return ERROR;
 }
 
 

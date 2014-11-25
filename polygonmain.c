@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     double x,y;
     Point tmpPoint;
     char restart;
-    boolean moveon;
+    Boolean moveon;
     int choice, choice2;
     Polygon polygon1, polygon2;
 
@@ -222,6 +222,7 @@ int main(int argc, char *argv[])
             printf("\n\n| What do you want to do?");
             printf("\n|------------------------");
             printf("\n| 1) Test if a point is inside a polygon");
+            printf("\n| 2) Test if the first polygon is in the second");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
@@ -262,6 +263,10 @@ int main(int argc, char *argv[])
                     }
                     printf("\n\t|");
 
+                    break;
+
+                case 2:
+                    printf("\n");
                     break;
 
                 case 0:
