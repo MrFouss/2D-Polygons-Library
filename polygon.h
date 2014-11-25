@@ -127,6 +127,27 @@ Boolean containsPoint (Polygon polygon, Point point);
 Boolean isOnTheLine (Point A, Point B, Point P);
 
 /**
+ * Checks if a polygon is in another one
+ * p1, p2 - the two polygons tested
+ * Return TRUE if p1 is in p2 (inside or equal), FALSE otherwise
+ */
+Boolean isInsidePolygon (Polygon p1, Polygon p2);
+
+/**
+ * Checkes if a polygon equal to another one
+ * p1, p2 - the two polygons tested
+ * Returns TRUE if p1 and p2 are equal, FALSE otherwise
+ */
+Boolean areEqualPolygons (Polygon p1, Polygon p2);
+
+/**
+ * Checkes if a polygon is outside another one
+ * p1, p2 - the two polygons tested
+ * Return TRUE if p1 is outside of p2, FALSE otherwise
+ */
+Boolean isOutsidePolygon (Polygon p1, Polygon p2);
+
+/**
  * Shows if a polygon is inside, outside, equal, intersecting or enclosing an other polygon
  * p1, p2 - the two polygons tested
  * Returns the corresponding value of Status, and error if one of the polygons is not valid (less than 3 points)

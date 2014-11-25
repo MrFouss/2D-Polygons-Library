@@ -266,7 +266,30 @@ int main(int argc, char *argv[])
                     break;
 
                 case 2:
-                    printf("\n");
+                    printf("\n| The first polygon is ");
+                    switch (containsPolygon(polygon1, polygon2))
+                    {
+                        case INSIDE:
+                            printf("inside");
+                            break;
+                        case OUTSIDE:
+                            printf("outside");
+                            break;
+                        case EQUAL:
+                            printf("equal to");
+                            break;
+                        case INTERSECT:
+                            printf("intersecting");
+                            break;
+                        case ENCLOSING:
+                            printf("enclosing");
+                            break;
+                        case ERROR:
+                            printf("not a polygon, and/or maybe it's");
+                            break;
+                    }
+
+                    printf(" the second one\n");
                     break;
 
                 case 0:

@@ -366,6 +366,125 @@ Boolean isOnTheLine (Point A, Point B, Point P)
 }
 
 /**
+ * Checks if a polygon is in another one
+ * p1, p2 - the two polygons tested
+ * Return TRUE if p1 is in p2 (inside or equal), FALSE otherwise
+ */
+Boolean isInsidePolygon (Polygon p1, Polygon p2)
+{
+    Boolean inside = TRUE;
+    if (isPolygon(p1) && isPolygon(p2))
+    {
+        Element* point; /* To go trough p1 */
+        point = p1.head;
+        do
+        {
+           if (!containsPoint(p2, point->value))
+           {
+                inside = FALSE;
+           }
+           point = point->next;
+        }while (point != p1.head && inside == TRUE); /* stops if it ran the complete polygon */
+                                                     /* or if a point is outside             */
+    }
+    return inside;
+}
+
+/**
+ * Checkes if a polygon equal to another one
+ * p1, p2 - the two polygons tested
+ * Returns TRUE if p1 and p2 are equal, FALSE otherwise
+ */
+Boolean areEqualPolygons (Polygon p1, Polygon p2)
+{
+    Boolean equal = FALSE;
+    if (isPolygon(p1) && isPolygon(p2))
+    {
+        Element* point = p1.head; /* to go throught p1*/
+        while (isOnTheLine(p2.head->prev->value, p2.head->next->value, p2.head->value))
+        {
+            p2.head = p2.head->next;
+        }/* moving the head of p2 out of a line */
+        do
+        {
+            point = point->next;
+        }while( arePointsEqual(point->value, p2.head->value) && point != p1.head);
+        /* places point on an element which coordonates are the ones of the head of p2 if theres one */
+        p1.head = point;
+        if (point == p2.head)
+        {
+            Element* point2 = p2.head; /* to go throught p2 */
+            do
+            {
+                do
+                {
+                    point = point->next;
+                }while (isOnTheLine(point->prev->value, point->next->value, point->value));
+
+                do
+                {
+                    point2 = point2->next;
+                }while (isOnTheLine(point2->prev->value, point2->next->value, point2->value));
+
+            }while(arePointsEqual(point->value, point2->value) && point2 != p2.head);
+            if(arePointsEqual(point->value, point2->value))
+            {
+                equal = TRUE;
+            }
+            else
+            {
+                point = p1.head;
+                point2 = p2.head;
+                do
+                {
+                    do
+                    {
+                        point = point->prev;
+                    }while (isOnTheLine(point->prev->value, point->next->value, point->value));
+
+                    do
+                    {
+                        point2 = point2->next;
+                    }while (isOnTheLine(point2->prev->value, point2->next->value, point2->value));
+
+                }while(arePointsEqual(point->value, point2->value) && point2 != p2.head);
+                if(arePointsEqual(point->value, point2->value))
+                {
+                equal = TRUE;
+                }
+            }
+        }
+    }
+    return equal;
+}
+
+/**
+ * Checkes if a polygon is outside another one
+ * p1, p2 - the two polygons tested
+ * Return TRUE if p1 is outside of p2, FALSE otherwise
+ */
+Boolean isOutsidePolygon (Polygon p1, Polygon p2)
+{
+     Boolean outside = TRUE;
+    if (isPolygon(p1) && isPolygon(p2))
+    {
+        Element* point; /* To go trough p1 */
+        point = p1.head;
+        do
+        {
+           if (containsPoint(p2, point->value))
+           {
+                outside = FALSE;
+           }
+           point = point->next;
+        }while (point != p1.head && outside == TRUE); /* stops if it ran the complete polygon */
+                                                      /* or if a point is inside              */
+    }
+    return outside;
+}
+
+
+/**
  * Shows if a polygon is inside, outside, equal, intersecting or enclosing an other polygon
  * p1, p2 - the two polygons tested
  * Returns the corresponding value of Status, and error if one of the polygons is not valid (less than 3 points)
@@ -374,68 +493,18 @@ Status containsPolygon (Polygon p1, Polygon p2)
 {
     if (isPolygon(p1) && isPolygon(p2))
     {
-        int insides, outsides; /* To count the number of points of p1 inside/outside p2 */
-        int i; /* increment for loops */
-        Element* point; /* To go trough p1 */
-        point = p1.head;
-        insides = 0;
-        outsides = 0;
-        for( i = 1; i <= p1.size; i++)
+        if(isInsidePolygon(p1, p2))
         {
-           if (containsPoint(p2, point->value))
-           {
-                insides++;
-           }
-           else
-           {
-                outsides++;
-           }
-           point = point->next;
-        }
-        if(outsides == 0) /* all the points are then inside p2 */
-        {
-            if( p1.size == p2.size )/* testing if the polygons are equals */
+            if(areEqualPolygons (p1, p2))
             {
-                point = p1.head;
-                do
-                {
-                    point = point->next;
-                }while( arePointsEqual(point->value, p2.head->value) && point != p1.head);
-                if (point == p2.head)
-                {
-                    Element* point2;
-                    do
-                    {
-                        point = point->next;
-                        point2 = point2->next;
-                    }while(arePointsEqual(point->value, point2->value) && point2 != p2.head);
-                    if(point2 == p2.head)
-                    {
-                        return EQUAL;
-                    }
-                }
+                return EQUAL;
             }
             return INSIDE;
         }
-        if( insides == 0) /* all the points are outside p2 */
+        if( isOutsidePolygon(p1, p2))
         {
             /* we need to check if p2 is in p1 */
-            point = p2.head;
-            insides = 0;
-            outsides = 0;
-            for( i = 1; i <= p2.size; i++)
-            {
-               if (containsPoint(p1, point->value))
-               {
-                    insides++;
-               }
-               else
-               {
-                    outsides++;
-               }
-               point = point->next;
-            }
-            if( outsides == 0) /* all the points of p2 are inside p1 */
+            if( isInsidePolygon(p2, p1))
             {
                 return ENCLOSING;
             }
