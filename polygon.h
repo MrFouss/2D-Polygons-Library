@@ -78,7 +78,7 @@ Polygon createPolygon ();
  * polygon - specified polygon to empty
  * Returns the empty polygon
  */
-Polygon emptyPolygon(Polygon polygon);
+Polygon emptyPolygon (Polygon polygon);
 
 /**
  * Adds the specified point at the end of the specified polygon
@@ -98,10 +98,10 @@ Polygon removePoint (Polygon polygon, int i);
 
 /**
  * Checks if two points have the same coordinates
- * po1, po2 - the two points checked
- * Returns TRUE if the points are equal and FALSE otherwise
+ * po1, po2 - the two points to check
+ * Returns TRUE if the points are equal, FALSE otherwise
  */
-Boolean arePointsEqual(Point po1, Point po2);
+Boolean arePointsEqual (Point po1, Point po2);
 
 /**
  * Checks if a polygon is really a polygon
@@ -129,21 +129,21 @@ Boolean isOnTheLine (Point A, Point B, Point P);
 /**
  * Checks if a polygon is in another one
  * p1, p2 - the two polygons tested
- * Return TRUE if p1 is in p2 (inside or equal), FALSE otherwise
+ * Returns TRUE if p1 is within p2 (inside or equal), FALSE otherwise
  */
 Boolean isInsidePolygon (Polygon p1, Polygon p2);
 
 /**
- * Checkes if a polygon equal to another one
+ * Checks if a polygon is equal to another one
  * p1, p2 - the two polygons tested
  * Returns TRUE if p1 and p2 are equal, FALSE otherwise
  */
 Boolean areEqualPolygons (Polygon p1, Polygon p2);
 
 /**
- * Checkes if a polygon is outside another one
+ * Checks if a polygon is outside another one
  * p1, p2 - the two polygons tested
- * Return TRUE if p1 is outside of p2, FALSE otherwise
+ * Returns TRUE if p1 is outside of p2, FALSE otherwise
  */
 Boolean isOutsidePolygon (Polygon p1, Polygon p2);
 

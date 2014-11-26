@@ -20,8 +20,7 @@
 
 /* ----- MAIN ----- */
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]){
 
     double x,y;
     Point tmpPoint;
@@ -30,8 +29,7 @@ int main(int argc, char *argv[])
     int choice, choice2;
     Polygon polygon1, polygon2;
 
-    do
-    {
+    do{
         printf("\n---------------------------------------------------------");
         printf("\n|     WELCOME TO THIS 2D-POLYGON MANAGEMENT PROGRAM     |");
         printf("\n---------------------------------------------------------");
@@ -44,8 +42,7 @@ int main(int argc, char *argv[])
 
         polygon1 = createPolygon();
 
-        do
-        {
+        do{
             printf("\n\n| What do you want to do?");
             printf("\n|------------------------");
             printf("\n| 1) Create a new point");
@@ -56,8 +53,7 @@ int main(int argc, char *argv[])
             scanf("%d",&choice);
             emptBuff();
 
-            switch(choice)
-            {
+            switch(choice){
                 case 1:
                     printf("\n\t| Creating a new point");
                     printf("\n\t|---------------------");
@@ -94,12 +90,10 @@ int main(int argc, char *argv[])
                     printf("\n\t|---------------------");
                     polygon1 = emptyPolygon(polygon1);
 
-                    if(polygon1.size == 0)
-                    {
+                    if(polygon1.size == 0){
                         printf("\n\t| The polygon is now empty");
                     }
-                    else
-                    {
+                    else{
                         printf("\n\t| An error occured while emptying the polygon");
                     }
 
@@ -130,8 +124,7 @@ int main(int argc, char *argv[])
 
         polygon2 = createPolygon();
 
-        do
-        {
+        do{
             printf("\n\n| What do you want to do?");
             printf("\n|------------------------");
             printf("\n| 1) Create a new point");
@@ -142,8 +135,7 @@ int main(int argc, char *argv[])
             scanf("%d",&choice);
             emptBuff();
 
-            switch(choice)
-            {
+            switch(choice){
                 case 1:
                     printf("\n\t| Creating a new point");
                     printf("\n\t|---------------------");
@@ -180,12 +172,10 @@ int main(int argc, char *argv[])
                     printf("\n\t|---------------------");
                     polygon2 = emptyPolygon(polygon1);
 
-                    if(polygon2.size == 0)
-                    {
+                    if(polygon2.size == 0){
                         printf("\n\t| The polygon is now empty");
                     }
-                    else
-                    {
+                    else{
                         printf("\n\t| An error occured while emptying the polygon");
                     }
 
@@ -217,19 +207,17 @@ int main(int argc, char *argv[])
 
         moveon = FALSE;
 
-        do
-        {
+        do{
             printf("\n\n| What do you want to do?");
             printf("\n|------------------------");
             printf("\n| 1) Test if a point is inside a polygon");
-            printf("\n| 2) Test if the first polygon is in the second");
+            printf("\n| 2) Test where the first polygon is compared to the second one");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
             emptBuff();
 
-            switch(choice)
-            {
+            switch(choice){
                 case 1:
                     printf("\n\t| Is this point inside or not the polygons?");
                     printf("\n\t|------------------------------------------");
@@ -245,20 +233,16 @@ int main(int argc, char *argv[])
                     printPoint(tmpPoint);
                     printf("\n\t|");
 
-                    if(containsPoint(polygon1,tmpPoint))
-                    {
+                    if(containsPoint(polygon1,tmpPoint)){
                         printf("\n\t| The point is inside the first polygon!");
                     }
-                    else
-                    {
+                    else{
                         printf("\n\t| The point is outside the first polygon.");
                     }
-                    if(containsPoint(polygon2,tmpPoint))
-                    {
+                    if(containsPoint(polygon2,tmpPoint)){
                         printf("\n\t| The point is inside the second polygon!");
                     }
-                    else
-                    {
+                    else{
                         printf("\n\t| The point is outside the second polygon.");
                     }
                     printf("\n\t|");
@@ -266,30 +250,27 @@ int main(int argc, char *argv[])
                     break;
 
                 case 2:
-                    printf("\n| The first polygon is ");
-                    switch (containsPolygon(polygon1, polygon2))
-                    {
+                    switch (containsPolygon(polygon1, polygon2)){
                         case INSIDE:
-                            printf("inside");
+                            printf("\n\t| The first polygon is inside the second one.");
                             break;
                         case OUTSIDE:
-                            printf("outside");
+                            printf("\n\t| The first polygon is outside the second one.");
                             break;
                         case EQUAL:
-                            printf("equal to");
+                            printf("\n\t| The first polygon and the second one are the same.");
                             break;
                         case INTERSECT:
-                            printf("intersecting");
+                            printf("\n\t| The first polygon and the second one are intersecting each other.");
                             break;
                         case ENCLOSING:
-                            printf("enclosing");
+                            printf("\n\t| The first polygon is enclosing the second one.");
                             break;
                         case ERROR:
-                            printf("not a polygon, and/or maybe it's");
+                            printf("\n\t| There may be an error: one of the created polygons may not be really a polygon (at least 3 sides)...");
                             break;
                     }
-
-                    printf(" the second one\n");
+                    printf("\n");
                     break;
 
                 case 0:
@@ -312,8 +293,7 @@ int main(int argc, char *argv[])
         polygon1 = emptyPolygon(polygon1);
         polygon2 = emptyPolygon(polygon2);
 
-        do
-        {
+        do{
             printf("\n\n| Do you want to restart the whole program? (y/n) ");
             scanf("%c", &restart);
             emptBuff();
