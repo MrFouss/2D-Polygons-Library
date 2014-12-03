@@ -466,6 +466,37 @@ Status containsPolygon (Polygon p1, Polygon p2){
 }
 
 /**
+ * Checks if two segments do intersect
+ * A1, A2 - the two points defining the first tested segment
+ * B1, B2 - the two points defining the second tested segment
+ * Returns TRUE if the two lines intersect each other, FALSE otherwise
+ * If the result is TRUE, the coordinates of the intersection point will be stored in the pointer i*
+ */
+Boolean intersectionSegments (Point A1, Point A2, Point B1, Point B2, Point* i){
+    Point SA, SB;
+    double s,t;
+
+    SA.x = A2.x - A1.x;
+    SA.y = A2.y - A1.y;
+    SB.x = B2.x - B1.x;
+    SB.y = B2.y - B1.y;
+
+    s = (-SA.y * (A1.x - B1.x) + SA.x * (A1.y - B1.y)) / (SA.x * SB.y - SB.x * SA.y);
+    t = (-SB.y * (A1.x - B1.x) + SB.x * (A1.y - B1.y)) / (SA.x * SB.y - SB.x * SA.y);
+
+    if(s >= 0 && t >= 0 && s <= 1 && t <= 1){
+        if(i != NULL){
+            i->x = A1.x + (t * SA.x);
+            i->y = A1.y + (t * SA.y);
+        }
+        return TRUE;
+    }
+    else{
+        return FALSE;
+    }
+}
+
+/**
  * Displays int the console the coordinates of the specified point
  * point - point containing the coordinates to display
  */

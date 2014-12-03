@@ -162,6 +162,15 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2);
 Status containsPolygon (Polygon p1, Polygon p2);
 
 /**
+ * Checks if two segments do intersect
+ * A1, A2 - the two points defining the first tested segment
+ * B1, B2 - the two points defining the second tested segment
+ * Returns TRUE if the two lines intersect each other, FALSE otherwise
+ * If the result is TRUE, the coordinates of the intersection point will be stored in the pointer i*
+ */
+Boolean intersectionSegments (Point A1, Point A2, Point B1, Point B2, Point* i);
+
+/**
  * Displays int the console the coordinates of the specified point
  * point - point containing the coordinates to display
  */
@@ -181,4 +190,3 @@ void printPolygon (Polygon polygon);
 /* char* toString (polygonList polygon); */
 
 #endif
-
