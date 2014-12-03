@@ -128,21 +128,28 @@ Boolean isOnTheLine (Point A, Point B, Point P);
 
 /**
  * Checks if a polygon is in another one
- * p1, p2 - the two polygons tested
+ * p1, p2 - the two tested polygons
  * Returns TRUE if p1 is within p2 (inside or equal), FALSE otherwise
  */
 Boolean isInsidePolygon (Polygon p1, Polygon p2);
 
 /**
- * Checks if a polygon is equal to another one
- * p1, p2 - the two polygons tested
+ * Checks if two polygons are the same
+ * p1, p2 - the two tested polygons
  * Returns TRUE if p1 and p2 are equal, FALSE otherwise
  */
 Boolean areEqualPolygons (Polygon p1, Polygon p2);
 
 /**
+ * Checks if two polygons have the same shape
+ * p1, p2 - the two tested polygons
+ * Returns TRUE if p1 and p2 have the same shape, FALSE otherwise
+ */
+Boolean haveSameShapePolygons (Polygon p1, Polygon p2);
+
+/**
  * Checks if a polygon is outside another one
- * p1, p2 - the two polygons tested
+ * p1, p2 - the two tested polygons
  * Returns TRUE if p1 is outside of p2, FALSE otherwise
  */
 Boolean isOutsidePolygon (Polygon p1, Polygon p2);

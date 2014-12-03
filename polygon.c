@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <polygon.h>
+#include <status_enum.h>
 
 /* ----- FUNCTIONS ----- */
 
@@ -339,7 +340,7 @@ Boolean isInsidePolygon (Polygon p1, Polygon p2){
     Boolean inside = TRUE;
 
     if (isPolygon(p1) && isPolygon(p2)){
-        Element* point; /* To go trough p1 */
+        Element* point; /* Pointer that will go through p1 */
         point = p1.head;
 
         do{
@@ -348,7 +349,7 @@ Boolean isInsidePolygon (Polygon p1, Polygon p2){
            }
            point = point->next;
         } while (point != p1.head && inside == TRUE);
-        /* stops if it ran through the whole polygon or if a point is outside */
+        /* Stops if the whole polygon has been analysed or if a point is outside */
     }
     return inside;
 }
@@ -359,60 +360,54 @@ Boolean isInsidePolygon (Polygon p1, Polygon p2){
  * Returns TRUE if p1 and p2 are equal, FALSE otherwise
  */
 Boolean areEqualPolygons (Polygon p1, Polygon p2){
-    Boolean equal = FALSE;
+    Boolean diffPointClockwise = FALSE;
+    Boolean diffPointCounterClockwise = FALSE;
+    Element* tmp1 = p1.head;
+    Element* tmp2 = p2.head;
+    Element* tmp3 = p2.head;
 
-    if (isPolygon(p1) && isPolygon(p2)){
-        Element* point = p1.head; /* to go through p1*/
-
-        while (isOnTheLine(p2.head->prev->value, p2.head->next->value, p2.head->value)){
-            p2.head = p2.head->next;
-        }/* moving the head of p2 out of a line */
-
-        do{
-            point = point->next;
-        } while( arePointsEqual(point->value, p2.head->value) && point != p1.head);
-        /* places point on an element which coordonates are the ones of the head of p2 if theres one */
-
-        p1.head = point;
-        if (point == p2.head){
-            Element* point2 = p2.head;
-            /* to go through p2 */
-
+    if(isPolygon(p1) && isPolygon(p2)){
+        if(p1.size == p2.size){
             do{
+                tmp1 = tmp1->next;
+            } while(tmp1 != p1.head && arePointsEqual(tmp1->value,tmp2->value) == FALSE);
+
+            if(arePointsEqual(tmp1->value,tmp2->value) == TRUE){
                 do{
-                    point = point->next;
-                } while (isOnTheLine(point->prev->value, point->next->value, point->value));
+                    if(arePointsEqual(tmp1->value,tmp2->value) == FALSE){
+                        diffPointClockwise = TRUE;
+                    }
+                    if(arePointsEqual(tmp1->value,tmp3->value) == FALSE){
+                        diffPointCounterClockwise = TRUE;
+                    }
+                    tmp1 = tmp1->next;
+                    tmp2 = tmp2->next;
+                    tmp3 = tmp3->prev;
+                } while(tmp2 != p2.head && diffPointClockwise == FALSE && diffPointCounterClockwise == FALSE);
 
-                do{
-                    point2 = point2->next;
-                } while (isOnTheLine(point2->prev->value, point2->next->value, point2->value));
-
-            } while(arePointsEqual(point->value, point2->value) && point2 != p2.head);
-
-            if(arePointsEqual(point->value, point2->value)){
-                equal = TRUE;
-            }
-            else{
-                point = p1.head;
-                point2 = p2.head;
-
-                do{
-                    do{
-                        point = point->prev;
-                    } while (isOnTheLine(point->prev->value, point->next->value, point->value));
-
-                    do{
-                        point2 = point2->next;
-                    } while (isOnTheLine(point2->prev->value, point2->next->value, point2->value));
-
-                } while(arePointsEqual(point->value, point2->value) && point2 != p2.head);
-                if(arePointsEqual(point->value, point2->value)){
-                    equal = TRUE;
+                if(diffPointClockwise == FALSE || diffPointCounterClockwise == FALSE){
+                    return TRUE;
                 }
             }
         }
     }
-    return equal;
+    return FALSE;
+}
+
+/**
+ * Checks if two polygons have the same shape
+ * p1, p2 - the two tested polygons
+ * Returns TRUE if p1 and p2 have the same shape, FALSE otherwise
+ */
+Boolean haveSameShapePolygons (Polygon p1, Polygon p2){
+    if(isInsidePolygon(p1,p2) == TRUE){
+        if(isInsidePolygon(p2,p1) == TRUE){
+            if(areEqualPolygons(p1,p2) == FALSE){
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
 }
 
 /**
@@ -432,7 +427,7 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2){
            }
            point = point->next;
         } while (point != p1.head && outside == TRUE);
-        /* stops if it ran through the whole polygon or if a point is inside */
+        /* Stops if the whole polygon has been analysed or if a point is inside */
     }
     return outside;
 }
@@ -444,25 +439,31 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2){
  * Returns the corresponding value of Status, and error if one of the polygons is not valid (less than 3 points)
  */
 Status containsPolygon (Polygon p1, Polygon p2){
-    if (isPolygon(p1) && isPolygon(p2)){
+    if(isPolygon(p1) && isPolygon(p2)){
         if(isInsidePolygon(p1, p2)){
             if(areEqualPolygons (p1, p2)){
                 return EQUAL;
             }
-            return INSIDE;
-        }
-        if(isOutsidePolygon(p1, p2)){
-            /* we need to check if p2 is in p1 */
-            if( isInsidePolygon(p2, p1)){
+            else if(haveSameShapePolygons(p1,p2)){
+                return SAMESHAPE;
+            }
+            else{
                 return ENCLOSING;
             }
-            return OUTSIDE;
+        }
+        else if(isOutsidePolygon(p1, p2)){
+            /* we need to check if p2 is in p1 */
+            if( isInsidePolygon(p2, p1)){
+                return INSIDE;
+            }
+            else{
+                return OUTSIDE;
+            }
         }
         return INTERSECT;
     }
     return ERROR;
 }
-
 
 /**
  * Displays int the console the coordinates of the specified point

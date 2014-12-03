@@ -26,7 +26,8 @@ typedef enum
     INSIDE = 1, /* if the second polygon is fully inside the first one */
     INTERSECT = 2, /* if the second polygon is partially inside and outside the first one */
     ENCLOSING = 3, /* if the first polygon is fully inside the second one */
-    EQUAL = 4 /* both polygons are exactly equal */
+    EQUAL = 4, /* if both polygons are exactly equal */
+    SAMESHAPE = 5 /* if both polygons have the same shape but aren't equal */
 } Status;
 
 

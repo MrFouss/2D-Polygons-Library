@@ -252,19 +252,22 @@ int main(int argc, char *argv[]){
                 case 2:
                     switch (containsPolygon(polygon1, polygon2)){
                         case INSIDE:
-                            printf("\n\t| The first polygon is inside the second one.");
+                            printf("\n\t| The second polygon is inside the first one.");
                             break;
                         case OUTSIDE:
-                            printf("\n\t| The first polygon is outside the second one.");
+                            printf("\n\t| The second polygon is outside the first one.");
                             break;
                         case EQUAL:
                             printf("\n\t| The first polygon and the second one are the same.");
+                            break;
+                        case SAMESHAPE:
+                            printf("\n\t| The first polygon and the second one are not exactly the same but have the same shape.");
                             break;
                         case INTERSECT:
                             printf("\n\t| The first polygon and the second one are intersecting each other.");
                             break;
                         case ENCLOSING:
-                            printf("\n\t| The first polygon is enclosing the second one.");
+                            printf("\n\t| The first polygon is inside the second one.");
                             break;
                         case ERROR:
                             printf("\n\t| There may be an error: one of the created polygons may not be really a polygon (at least 3 sides)...");
