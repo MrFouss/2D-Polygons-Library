@@ -15,11 +15,17 @@ LIBSDIR = -L. -L/usr/lib
 INCLUDEDIR = -I. -I/usr/include
 
 # Library-related macros
-LIBTARGET2 = Polygon
-LIBTARGET = libPolygon.so
-LIBSOURCE = polygon useful_fcts
-LIBSOURCECFILE = $(LIBSOURCE:=.c)
-LIBSOURCEOFILE = $(LIBSOURCE:=.o)
+ALIBTARGET2 = Polygon
+ALIBTARGET = libPolygon.so
+ALIBSOURCE = polygon
+ALIBSOURCECFILE = $(ALIBSOURCE:=.c)
+ALIBSOURCEOFILE = $(ALIBSOURCE:=.o)
+
+BLIBTARGET2 = Utils
+BLIBTARGET = libUtils.so
+BLIBSOURCE = useful_fcts
+BLIBSOURCECFILE = $(BLIBSOURCE:=.c)
+BLIBSOURCEOFILE = $(BLIBSOURCE:=.o)
 
 # Application-related macros
 TARGET = polygonManager.exe
@@ -35,15 +41,29 @@ run: $(TARGET)
 	@echo "\n Executing the executable " $(TARGET)
 	./$(TARGET)
 
+# Running the program using "valgrind" to check the memory usage
+memory: $(TARGET)
+	@echo "\n Executing the executable and checking the memory usage of " $(TARGET)
+	valgrind -v ./$(TARGET)
+
+# Running the program using "gdb" to debug the program
+debug: $(TARGET)
+	@echo "\n Executing the executable " $(TARGET) " and debuging it"
+	gdb ./$(TARGET)
+
 # Generating the executable
-$(TARGET): $(EXESOURCEOFILE) $(LIBTARGET)
+$(TARGET): $(EXESOURCEOFILE) $(ALIBTARGET) $(BLIBTARGET)
 	@echo "\n Generating the executable " $@
-	$(CXX) $(EXESOURCEOFILE) -l$(LIBTARGET2) $(LIBSDIR) -o $(TARGET)
+	$(CXX) $(EXESOURCEOFILE) -l$(ALIBTARGET2) -l$(BLIBTARGET2) $(LIBSDIR) -o $(TARGET)
 
 # Generating the library binary code
-$(LIBTARGET): $(LIBSOURCEOFILE)
+$(ALIBTARGET): $(ALIBSOURCEOFILE)
 	@echo "\n Generating the library " $@
-	$(CXX) $(CFLAGS) -shared $(LIBSOURCEOFILE) -o $(LIBTARGET)
+	$(CXX) $(CFLAGS) -shared $(ALIBSOURCEOFILE) -o $(ALIBTARGET)
+
+$(BLIBTARGET): $(BLIBSOURCEOFILE)
+	@echo "\n Generating the library " $@
+	$(CXX) $(CFLAGS) -shared $(BLIBSOURCEOFILE) -o $(BLIBTARGET)
 
 # Generating an object file from a C file having the same name
 .c.o:
