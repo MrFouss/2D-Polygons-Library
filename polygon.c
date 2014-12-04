@@ -465,6 +465,29 @@ Status containsPolygon (Polygon p1, Polygon p2){
     return ERROR;
 }
 
+/** Create a new polygon that is the central symmetry of a specified polygon according to a specified point
+ * p - the polygon for which the symmetry is computed
+ * s - the point of symmetry
+ * Return the polygon symmetric to p according to s
+ */
+Polygon centralSymmetry (Polygon p, Point s)
+{
+    if(isPolygon(p))
+    {
+        Polygon newp = createPolygon();
+        Element* elem = p.head;
+        Point temp;
+        do
+        {
+            temp.x = 2*s.x - elem->value.x;
+            temp.y = 2*s.y - elem->value.y;
+            newp = addPoint(temp, newp);
+            elem = elem->next;
+        }while(elem != p.head);
+    }
+}
+
+
 /**
  * Checks if two segments do intersect
  * A1, A2 - the two points defining the first tested segment

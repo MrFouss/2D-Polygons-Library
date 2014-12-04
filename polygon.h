@@ -161,6 +161,13 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2);
  */
 Status containsPolygon (Polygon p1, Polygon p2);
 
+/** Create a new polygon that is the central symmetry of a specified polygon according to a specified point
+ * p - the polygon for which the symmetry is computed
+ * s - the point of symmetry
+ * Return the polygon symmetric to p according to s
+ */
+Polygon centralSymmetry (Polygon p, Point s);
+
 /**
  * Checks if two segments do intersect
  * A1, A2 - the two points defining the first tested segment
