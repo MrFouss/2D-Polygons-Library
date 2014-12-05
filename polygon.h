@@ -162,6 +162,14 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2);
 Status containsPolygon (Polygon p1, Polygon p2);
 
 /**
+ * Scales a polygon according to a factor
+ * poly - specified polygon to scale
+ * factor - scale factor to use
+ * Returns the scaled polygon
+ */
+Polygon scalePolygon (Polygon poly, float factor);
+
+/**
  * Computes the translation of a polygon according to the vector defined by two points
  * poly - specified polygon to translate
  * A, B - two points forming the vector AB

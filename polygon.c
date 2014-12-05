@@ -466,6 +466,32 @@ Status containsPolygon (Polygon p1, Polygon p2){
 }
 
 /**
+ * Scales a polygon according to a factor
+ * poly - specified polygon to scale
+ * factor - scale factor to use
+ * Returns the scaled polygon
+ */
+Polygon scalePolygon (Polygon poly, float factor){
+    Point tmpPoint, vector;
+    Element* tmp = poly.head->next;
+    Polygon resultPoly = createPolygon();
+
+    do{
+        vector.x = factor * (tmp->value.x - poly.head->value.x);
+        vector.y = factor * (tmp->value.y - poly.head->value.y);
+
+        tmpPoint.x = vector.x + poly.head->value.x;
+        tmpPoint.y = vector.y + poly.head->value.y;
+
+        resultPoly = addPoint(resultPoly, tmpPoint);
+
+        tmp = tmp->next;
+    } while(tmp != poly.head);
+
+    return resultPoly;
+}
+
+/**
  * Computes the translation of a polygon according to the vector defined by two points
  * poly - specified polygon to translate
  * A, B - two points forming the vector AB
