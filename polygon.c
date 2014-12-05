@@ -82,7 +82,7 @@ Polygon emptyPolygon (Polygon polygon){
  * point - point we want to add at the end of the polygon
  * Returns the polygon containing the new point
  */
-Polygon addPoint (Point point, Polygon polygon){
+Polygon addPoint (Polygon polygon, Point point){
     Element* newElem = (Element*)malloc(sizeof(Element)); /* memory allocation for the new element */
 
     newElem->value = point;
@@ -465,6 +465,29 @@ Status containsPolygon (Polygon p1, Polygon p2){
     return ERROR;
 }
 
+/**
+ * Computes the translation of a polygon according to the vector defined by two points
+ * poly - specified polygon to translate
+ * A, B - two points forming the vector AB
+ * Returns the translated polygon
+ */
+Polygon translatePolygon (Polygon poly, Point A, Point B){
+    Point vector, tmpPoint;
+    Polygon resultPoly = createPolygon();
+    Element* tmp = poly.head;
+
+    vector.x = B.x - A.x;
+    vector.y = B.y - A.y;
+
+    do{
+        tmpPoint.x = tmp->value.x + vector.x;
+        tmpPoint.y = tmp->value.y + vector.y;
+        resultPoly = addPoint(resultPoly, tmpPoint);
+    } while(tmp != poly.head);
+
+    return resultPoly;
+}
+
 /** Create a new polygon that is the central symmetry of a specified polygon according to a specified point
  * p - the polygon for which the symmetry is computed
  * s - the point of symmetry
@@ -479,7 +502,7 @@ Polygon centralSymmetry (Polygon p, Point s)
     {
         newPoint.x = 2*s.x - tmp->value.x;
         newPoint.y = 2*s.y - tmp->value.y;
-        newPoly = addPoint(newPoint, newPoly);
+        newPoly = addPoint(newPoly, newPoint);
         tmp = tmp->next;
     }while(tmp != p.head);
      return newPoly;

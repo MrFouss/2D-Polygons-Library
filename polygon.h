@@ -86,7 +86,7 @@ Polygon emptyPolygon (Polygon polygon);
  * point - point we want to add at the end of the polygon
  * Returns the polygon containing the new point
  */
-Polygon addPoint (Point point, Polygon polygon);
+Polygon addPoint (Polygon polygon, Point point);
 
 /**
  * Removes a specified point from the specified polygon
@@ -160,6 +160,14 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2);
  * Returns the corresponding value of Status, and error if one of the polygons is not valid (less than 3 points)
  */
 Status containsPolygon (Polygon p1, Polygon p2);
+
+/**
+ * Computes the translation of a polygon according to the vector defined by two points
+ * poly - specified polygon to translate
+ * A, B - two points forming the vector AB
+ * Returns the translated polygon
+ */
+Polygon translatePolygon (Polygon poly, Point A, Point B);
 
 /** Create a new polygon that is the central symmetry of a specified polygon according to a specified point
  * p - the polygon for which the symmetry is computed
