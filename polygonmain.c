@@ -23,7 +23,7 @@
 int main(int argc, char *argv[]){
 
     double x,y;
-    Point tmpPoint;
+    Point tmpPoint, tmpPoint2;
     char restart;
     Boolean moveon;
     int choice, choice2;
@@ -213,6 +213,7 @@ int main(int argc, char *argv[]){
             printf("\n| 1) Test if a point is inside a polygon");
             printf("\n| 2) Test where the first polygon is compared to the second one");
             printf("\n| 3) Displays the symmetric polygon of each one through a point");
+            printf("\n| 4) Translates each point of the polygons through a vector");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
@@ -291,6 +292,36 @@ int main(int argc, char *argv[]){
                     emptyPolygon(tmpPolygon);
                     tmpPolygon = centralSymmetry(polygon2, tmpPoint);
                     printf("\n| Symmetric of Polygon 2: ");
+                    printPolygon(tmpPolygon);
+                    printf("\n|");
+                    emptyPolygon(tmpPolygon);
+                    break;
+
+                case 4:
+                    printf("\n| You will now choose the vector AB through which the polygons will be translated");
+
+                    printf("\n| Point A:");
+                    printf("\n|     x = ");
+                    scanf("%lf", &x);
+                    printf("|     y = ");
+                    scanf("%lf", &y);
+                    printf("|");
+                    tmpPoint = createPoint(x, y);
+
+                    printf("\n| Point B:");
+                    printf("\n|     x = ");
+                    scanf("%lf", &x);
+                    printf("|     y = ");
+                    scanf("%lf", &y);
+                    printf("|");
+                    tmpPoint2 = createPoint(x, y);
+
+                    tmpPolygon = translatePolygon(polygon1, tmpPoint, tmpPoint2);
+                    printf("\n| Translation of Polygon 1: ");
+                    printPolygon(tmpPolygon);
+                    emptyPolygon(tmpPolygon);
+                    tmpPolygon = translatePolygon(polygon2, tmpPoint, tmpPoint2);
+                    printf("\n| Translation of Polygon 2: ");
                     printPolygon(tmpPolygon);
                     printf("\n|");
                     emptyPolygon(tmpPolygon);
