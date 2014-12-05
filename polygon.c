@@ -476,6 +476,8 @@ Polygon scalePolygon (Polygon poly, float factor){
     Element* tmp = poly.head->next;
     Polygon resultPoly = createPolygon();
 
+    resultPoly = addPoint(resultPoly, poly.head->value);
+
     do{
         vector.x = factor * (tmp->value.x - poly.head->value.x);
         vector.y = factor * (tmp->value.y - poly.head->value.y);
