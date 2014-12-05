@@ -483,6 +483,8 @@ Polygon translatePolygon (Polygon poly, Point A, Point B){
         tmpPoint.x = tmp->value.x + vector.x;
         tmpPoint.y = tmp->value.y + vector.y;
         resultPoly = addPoint(resultPoly, tmpPoint);
+
+        tmp = tmp->next;
     } while(tmp != poly.head);
 
     return resultPoly;
