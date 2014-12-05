@@ -27,7 +27,7 @@ int main(int argc, char *argv[]){
     char restart;
     Boolean moveon;
     int choice, choice2;
-    Polygon polygon1, polygon2;
+    Polygon polygon1, polygon2, tmpPolygon;
 
     do{
         printf("\n---------------------------------------------------------");
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]){
                     tmpPoint=createPoint(x,y);
                     printf("\t|\n\t| Point created: ");
                     printPoint(tmpPoint);
-                    polygon1=addPoint(tmpPoint,polygon1);
+                    polygon1=addPoint(polygon1, tmpPoint);
                     printf("\n\t|\n\t| Polygon 1: ");
                     printPolygon(polygon1);
                     break;
@@ -149,7 +149,7 @@ int main(int argc, char *argv[]){
                     tmpPoint=createPoint(x,y);
                     printf("\t|\n\t| Point created: ");
                     printPoint(tmpPoint);
-                    polygon2=addPoint(tmpPoint,polygon2);
+                    polygon2=addPoint(polygon2, tmpPoint);
                     printf("\n\t|\n\t| Polygon 2: ");
                     printPolygon(polygon2);
                     break;
@@ -212,7 +212,7 @@ int main(int argc, char *argv[]){
             printf("\n|------------------------");
             printf("\n| 1) Test if a point is inside a polygon");
             printf("\n| 2) Test where the first polygon is compared to the second one");
-            printf("\n| 3) Replace the second polygon by the central symmetry of the first polygon according to a given point");
+            printf("\n| 3) Displays the symmetric polygon of each one through a point");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
@@ -278,15 +278,22 @@ int main(int argc, char *argv[]){
                     break;
 
                 case 3:
-                    printf("\n| Choose the point you want :");
+                    printf("\n| Choose the point you want as a symmetry center :");
                     printf("\n| x = ");
                     scanf("%lf", &x);
-                    printf("\n| y = ");
+                    printf("| y = ");
                     scanf("%lf", &y);
+                    printf("|");
                     tmpPoint = createPoint(x, y);
-                    polygon2 = emptyPolygon(polygon2);
-                    polygon2 = centralSymmetry(polygon1, tmpPoint);
-
+                    tmpPolygon = centralSymmetry(polygon1, tmpPoint);
+                    printf("\n| Symmetric of Polygon 1: ");
+                    printPolygon(tmpPolygon);
+                    emptyPolygon(tmpPolygon);
+                    tmpPolygon = centralSymmetry(polygon2, tmpPoint);
+                    printf("\n| Symmetric of Polygon 2: ");
+                    printPolygon(tmpPolygon);
+                    printf("\n|");
+                    emptyPolygon(tmpPolygon);
                     break;
 
                 case 0:
