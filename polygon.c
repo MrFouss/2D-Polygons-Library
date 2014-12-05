@@ -472,17 +472,17 @@ Status containsPolygon (Polygon p1, Polygon p2){
  */
 Polygon centralSymmetry (Polygon p, Point s)
 {
-    Polygon newp = createPolygon();
-    Element* elem = p.head;
-    Point temp;
+    Polygon newPoly = createPolygon();
+    Element* tmp = p.head;
+    Point newPoint;
     do
     {
-        temp.x = 2*s.x - elem->value.x;
-        temp.y = 2*s.y - elem->value.y;
-        newp = addPoint(temp, newp);
-        elem = elem->next;
-    }while(elem != p.head);
-     return newp;
+        newPoint.x = 2*s.x - tmp->value.x;
+        newPoint.y = 2*s.y - tmp->value.y;
+        newPoly = addPoint(newPoint, newPoly);
+        tmp = tmp->next;
+    }while(tmp != p.head);
+     return newPoly;
 }
 
 
