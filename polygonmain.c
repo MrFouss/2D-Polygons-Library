@@ -22,6 +22,7 @@
 
 int main(int argc, char *argv[]){
 
+    float scale;
     double x,y;
     Point tmpPoint, tmpPoint2;
     char restart;
@@ -214,6 +215,7 @@ int main(int argc, char *argv[]){
             printf("\n| 2) Test where the first polygon is compared to the second one");
             printf("\n| 3) Displays the symmetric polygon of each one through a point");
             printf("\n| 4) Translates each point of the polygons through a vector");
+            printf("\n| 5) Displays the polygons with a different scale");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
@@ -322,6 +324,21 @@ int main(int argc, char *argv[]){
                     emptyPolygon(tmpPolygon);
                     tmpPolygon = translatePolygon(polygon2, tmpPoint, tmpPoint2);
                     printf("\n| Translation of Polygon 2: ");
+                    printPolygon(tmpPolygon);
+                    printf("\n|");
+                    emptyPolygon(tmpPolygon);
+                    break;
+
+                case 5:
+                    printf("\n| New scale: ");
+                    scanf("%f", &scale);
+                    printf("|");
+                    tmpPolygon = scalePolygon(polygon1, scale);
+                    printf("\n| Polygon 1 newly rescaled: ");
+                    printPolygon(tmpPolygon);
+                    emptyPolygon(tmpPolygon);
+                    tmpPolygon = scalePolygon(polygon2, scale);
+                    printf("\n| Polygon 2 newly rescaled: ");
                     printPolygon(tmpPolygon);
                     printf("\n|");
                     emptyPolygon(tmpPolygon);
