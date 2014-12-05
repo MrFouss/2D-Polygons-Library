@@ -212,6 +212,7 @@ int main(int argc, char *argv[]){
             printf("\n|------------------------");
             printf("\n| 1) Test if a point is inside a polygon");
             printf("\n| 2) Test where the first polygon is compared to the second one");
+            printf("\n| 3) Replace the second polygon by the central symmetry of the first polygon according to a given point");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
@@ -274,6 +275,18 @@ int main(int argc, char *argv[]){
                             break;
                     }
                     printf("\n");
+                    break;
+
+                case 3:
+                    printf("\n| Choose the point you want :");
+                    printf("\n| x = ");
+                    scanf("%lf", &x);
+                    printf("\n| y = ");
+                    scanf("%lf", &y);
+                    tmpPoint = createPoint(x, y);
+                    polygon2 = emptyPolygon(polygon2);
+                    polygon2 = centralSymmetry(polygon1, tmpPoint);
+
                     break;
 
                 case 0:
