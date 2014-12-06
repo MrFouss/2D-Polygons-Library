@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <polygon.h>
 #include <status_enum.h>
 
@@ -604,8 +605,36 @@ void printPolygon (Polygon polygon){
 }
 
 /**
- * Stores the coordinates of all points of a specified polygon in an array of characters
- * polygon - specified polygon containing the coordinates to store
- * Returns the array of characters, dynamically allocated, containing the coordinates of the polygon
+ * Outputs the list of points of a polygon into a string
+ * polygon - polygon to output
+ * Returns the array of characters containing the list of points formated
  */
-/* char* toString (polygonList polygon); */
+char* toString (Polygon polygon){
+    int i;
+    Element* tmp = polygon.head;
+    char BUFFER[50];
+    char* RESULT = (char*)malloc(sizeof(char));
+
+    RESULT[0] = '[';
+
+    do{
+        for(i=0;i<50;i++){
+            BUFFER[i] = '\0';
+        }
+        sprintf(BUFFER, "[%.2f,%.2f],", tmp->value.x, tmp->value.y);
+
+        RESULT = realloc(RESULT, (strlen(RESULT) + strlen(BUFFER) + 1));
+        strcat(RESULT, BUFFER);
+        tmp = tmp->next;
+    } while(tmp != polygon.head->prev);
+
+    for(i=0;i<50;i++){
+        BUFFER[i] = '\0';
+    }
+    sprintf(BUFFER, "[%.2f,%.2f]]", tmp->value.x, tmp->value.y);
+
+    RESULT = realloc(RESULT, (strlen(RESULT) + strlen(BUFFER) + 1));
+    strcat(RESULT, BUFFER);
+
+    return RESULT;
+}

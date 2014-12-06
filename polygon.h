@@ -206,10 +206,10 @@ void printPoint (Point point);
 void printPolygon (Polygon polygon);
 
 /**
- * Stores the coordinates of all points of a specified polygon in an array of characters
- * polygon - specified polygon containing the coordinates to store
- * Returns the array of characters, dynamically allocated, containing the coordinates of the polygon
+ * Outputs the list of points of a polygon into a string
+ * polygon - polygon to output
+ * Returns the array of characters containing the list of points formated
  */
-/* char* toString (polygonList polygon); */
+char* toString (Polygon polygon);
 
 #endif
