@@ -33,7 +33,7 @@ typedef struct
 /**
  * Data type of an element of the polygon-linked-list with the following specifications:
  * value - Point data type with the abscissa and ordinate of the point
- * index - index of the point contained in the polygon
+ * index - index of the point contained in the polygon from 1 to size
  * prev - pointer on the previous element of the polygon
  * next - pointer on the next element of the polygon
  */
