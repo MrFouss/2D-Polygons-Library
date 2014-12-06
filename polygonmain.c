@@ -347,11 +347,17 @@ int main(int argc, char *argv[]){
                     break;
 
                 case 42:
-                    printf("\n| Test of the \"toString\" function: ");
+                    printf("\n| Test of the \"toString\" function on the Polygon 1: ");
                     toStringSample = toString(polygon1);
                     puts(toStringSample);
                     free(toStringSample);
                     toStringSample = NULL;
+                    printf("| Test of the \"toString\" function on the Polygon 2: ");
+                    toStringSample = toString(polygon2);
+                    puts(toStringSample);
+                    free(toStringSample);
+                    toStringSample = NULL;
+                    printf("|");
                     break;
 
                 case 0:
