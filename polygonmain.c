@@ -26,6 +26,7 @@ int main(int argc, char *argv[]){
     double x,y;
     Point tmpPoint, tmpPoint2;
     char restart;
+    char* toStringSample;
     Boolean moveon;
     int choice, choice2;
     Polygon polygon1, polygon2, tmpPolygon;
@@ -216,6 +217,7 @@ int main(int argc, char *argv[]){
             printf("\n| 3) Displays the symmetric polygon of each one through a point");
             printf("\n| 4) Translates each point of the polygons through a vector");
             printf("\n| 5) Displays the polygons with a different scale");
+            printf("\n| 42) Tests the \"toString\" function");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
@@ -342,6 +344,14 @@ int main(int argc, char *argv[]){
                     printPolygon(tmpPolygon);
                     printf("\n|");
                     emptyPolygon(tmpPolygon);
+                    break;
+
+                case 42:
+                    printf("\n| Test of the \"toString\" function: ");
+                    toStringSample = toString(polygon1);
+                    puts(toStringSample);
+                    free(toStringSample);
+                    toStringSample = NULL;
                     break;
 
                 case 0:

@@ -613,28 +613,37 @@ char* toString (Polygon polygon){
     int i;
     Element* tmp = polygon.head;
     char BUFFER[50];
-    char* RESULT = (char*)malloc(sizeof(char));
+    char* RESULT;
+
+    RESULT = (char*)malloc(sizeof(char)*2);
 
     RESULT[0] = '[';
+    RESULT[1] = '\0';
 
-    do{
+    if(polygon.size >= 3){
+        do{
+            for(i=0;i<50;i++){
+                BUFFER[i] = '\0';
+            }
+            sprintf(BUFFER, "[%.2f,%.2f],", tmp->value.x, tmp->value.y);
+
+            RESULT = realloc(RESULT, sizeof(char) * (strlen(RESULT) + strlen(BUFFER) + 1));
+            strcat(RESULT, BUFFER);
+            tmp = tmp->next;
+        } while(tmp != polygon.head->prev);
+
         for(i=0;i<50;i++){
             BUFFER[i] = '\0';
         }
-        sprintf(BUFFER, "[%.2f,%.2f],", tmp->value.x, tmp->value.y);
+        sprintf(BUFFER, "[%.2f,%.2f]]", tmp->value.x, tmp->value.y);
 
-        RESULT = realloc(RESULT, (strlen(RESULT) + strlen(BUFFER) + 1));
+        RESULT = realloc(RESULT, sizeof(char) * (strlen(RESULT) + strlen(BUFFER) + 1));
         strcat(RESULT, BUFFER);
-        tmp = tmp->next;
-    } while(tmp != polygon.head->prev);
-
-    for(i=0;i<50;i++){
-        BUFFER[i] = '\0';
     }
-    sprintf(BUFFER, "[%.2f,%.2f]]", tmp->value.x, tmp->value.y);
-
-    RESULT = realloc(RESULT, (strlen(RESULT) + strlen(BUFFER) + 1));
-    strcat(RESULT, BUFFER);
+    else{
+        RESULT = realloc(RESULT, sizeof(char) * 8);
+        strcat(RESULT, "ERROR]");
+    }
 
     return RESULT;
 }
