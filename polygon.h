@@ -177,6 +177,29 @@ Polygon scalePolygon (Polygon poly, float factor);
  */
 Polygon translatePolygon (Polygon poly, Point A, Point B);
 
+/**
+ * Computes the angle from 3 points
+ * p1, p2, p3 - the three points
+ * Returns the angle (p1p2p3) in radians
+ */
+float angleThreePoints(Point p1, Point p2, Point p3);
+
+/**
+ * Gives a sorted version of a polygon, in ascendant order from the vector of a point with his projection on y
+ * polygon - the Polygon to sort
+ * point - the Point defining the vector
+ * Returns the sorted version of polygon
+ */
+Polygon angleSortPolygon (Polygon polygon, Point point);
+
+/**
+ * Compute the convex hull of a list of point
+ * polygon - the list of points
+ * Return the convex hull of polygon
+ */
+Polygon convexhullPolygon (Polygon polygon);
+
+
 /** Create a new polygon that is the central symmetry of a specified polygon according to a specified point
  * p - the polygon for which the symmetry is computed
  * s - the point of symmetry

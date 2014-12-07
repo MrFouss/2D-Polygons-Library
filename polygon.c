@@ -14,6 +14,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <string.h>
 #include <polygon.h>
 #include <status_enum.h>
@@ -519,6 +520,148 @@ Polygon translatePolygon (Polygon poly, Point A, Point B){
     return resultPoly;
 }
 
+/**
+ * Computes the angle from 3 points
+ * p1, p2, p3 - the three points
+ * Returns the angle (p1p2p3) in radians, and 4 if two p1 or p2 equal p3
+ */
+float angleThreePoints(Point p1, Point p3, Point p2)
+{
+    float angle;
+    if ( (p1.x == p3.x && p1.y == p3.y) || (p2.x == p3.x && p2.y == p3.y ) )
+    {
+        angle = 4;
+    }
+    else
+    {
+        angle = (p1.x - p3.x)*(p2.x - p3.x) + (p1.y - p3.y)*(p2.y - p3.y);
+        angle = angle/(sqrt(pow((p1.x - p3.x),2) + pow((p1.y - p3.y),2))*sqrt(pow((p2.x - p3.x),2)+pow((p2.y - p3.y),2)));
+        angle = acos(angle);
+    }
+    return angle;
+}
+
+/**
+ * Gives a sorted version of a polygon, in descendant angle order from the vector of a point with his projection on y
+ * polygon - the Polygon to sort
+ * point - the Point defining the vector
+ * Returns the sorted version of polygon
+ */
+Polygon angleSortPolygon (Polygon polygon, Point point)
+{
+    Polygon sortedPoly = createPolygon();
+    Element* tmpElem1 = polygon.head;
+    Element* tmpElem2 = NULL; /* Temporary pointers on an Element */
+    Element* newElem = NULL; /* Pointer on futur new elements */
+    int i;
+    float a1, a2; /* Temporary angles */
+    Point projY = point; /* setting the projection of the point on the y axe */
+    projY.x = 0;
+    if(polygon.size > 0)
+     {
+        sortedPoly = addPoint(sortedPoly, tmpElem1->value);
+        tmpElem1 = tmpElem1->next;
+        while(tmpElem1 != polygon.head)
+        {
+            tmpElem2 = sortedPoly.head;
+            i = 0;
+            a1 = angleThreePoints(projY, point, tmpElem1->value);
+            a2 = angleThreePoints(projY, point, tmpElem2->value);
+            while( (a1 < a2) && (i < sortedPoly.size) )
+            {
+                tmpElem2 = tmpElem2->next;
+                i++;
+                a2 = angleThreePoints(projY, point, tmpElem2->value);
+            }
+            newElem = (Element*) malloc(sizeof(Element));
+            newElem->value = tmpElem1->value;
+            newElem->prev = tmpElem2->prev;
+            newElem->next = tmpElem2;
+            newElem->prev->next = newElem;
+            newElem->next->prev = newElem;
+            if (i == 0)
+            {
+                sortedPoly.head = newElem;
+            }
+            newElem = NULL;
+            sortedPoly.size++;
+            tmpElem1 = tmpElem1->next;
+        }
+            newElem = sortedPoly.head;
+            i = 1;
+            do
+            {
+                newElem->index = i;
+                i++;
+                newElem = newElem->next;
+            }while (newElem != sortedPoly.head);
+
+    }
+    return sortedPoly;
+}
+
+/**
+ * Compute the convex hull of a list of point
+ * polygon - the list of points
+ * Return the convex hull of polygon
+ */
+Polygon convexhullPolygon (Polygon polygon)
+{
+    Polygon convPoly = createPolygon(); /* The convex hull polygon */
+    if (polygon.size > 0)
+    {
+        Element* tmpElem = polygon.head; /* Temporary pointer on an Element */
+        Point tmpPoint = tmpElem->value; /* Temporary Point  */
+        double angle;
+        int i = 0; /* Counter for the position in the polygon */
+
+        do
+        {
+            if ((tmpPoint.y > tmpElem->value.y) || (tmpPoint.y == tmpElem->value.y && tmpPoint.x > tmpElem->value.x)){
+                /* Selecting the point with the smallest y, and if two are equal, the smaller x */
+                tmpPoint = tmpElem->value;
+            }
+            tmpElem = tmpElem->next;
+        }while(tmpElem != polygon.head);
+        /* Stops when the head of the polygon is reached */
+
+        convPoly = angleSortPolygon(polygon, tmpPoint);
+        /* Sorts the polygon with a descendant angle with the vector made from the point chose before and its projection on y*/
+        tmpElem = convPoly.head->next->next->next;
+        i = 4;
+        while (tmpElem != convPoly.head)
+        {
+            angle = (tmpElem->prev->value.x - tmpElem->prev->prev->value.x)*(tmpElem->value.y - tmpElem->prev->prev->value.y) - (tmpElem->prev->value.y - tmpElem->prev->prev->value.y)*(tmpElem->value.x - tmpElem->prev->prev->value.x);
+            if (angle < 0)
+            {
+                convPoly = removePoint(convPoly, i - 1);
+                tmpElem = tmpElem->next;
+            }
+            else if(angle == 0 )
+            {
+                if (sqrt(pow(tmpElem->value.x - tmpPoint.x,2) + pow(tmpElem->value.y - tmpPoint.y,2)) <
+                        sqrt(pow(tmpElem->prev->value.x - tmpPoint.x,2) + pow(tmpElem->prev->value.y - tmpPoint.y,2))
+                        &&  fabs(angleThreePoints(tmpElem->value, tmpElem->prev->value, tmpElem->prev->prev->value) - acos(-1)) > 0.000001  )
+                {
+                    tmpElem = tmpElem->next;
+                    convPoly = removePoint(convPoly, i);
+                }
+                else
+                {
+                    convPoly = removePoint(convPoly, i - 1);
+                    i--;
+                }
+            }
+            else
+            {
+                tmpElem = tmpElem->next;
+                i++;
+            }
+        }
+    }
+    return convPoly;
+}
+
 /** Create a new polygon that is the central symmetry of a specified polygon according to a specified point
  * p - the polygon for which the symmetry is computed
  * s - the point of symmetry
@@ -538,7 +681,6 @@ Polygon centralSymmetry (Polygon p, Point s)
     }while(tmp != p.head);
      return newPoly;
 }
-
 
 /**
  * Checks if two segments do intersect

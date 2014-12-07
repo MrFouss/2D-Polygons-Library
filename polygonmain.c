@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
     int choice, choice2;
     Polygon polygon1, polygon2, tmpPolygon;
 
-    do{
+
         printf("\n---------------------------------------------------------");
         printf("\n|     WELCOME TO THIS 2D-POLYGON MANAGEMENT PROGRAM     |");
         printf("\n---------------------------------------------------------");
@@ -43,6 +43,11 @@ int main(int argc, char *argv[]){
         moveon = FALSE;
 
         polygon1 = createPolygon();
+
+        do{
+
+
+
 
         do{
             printf("\n\n| What do you want to do?");
@@ -217,6 +222,7 @@ int main(int argc, char *argv[]){
             printf("\n| 3) Displays the symmetric polygon of each one through a point");
             printf("\n| 4) Translates each point of the polygons through a vector");
             printf("\n| 5) Displays the polygons with a different scale");
+            printf("\n| 6) Displays the Convex Hull of the polygons");
             printf("\n| 42) Tests the \"toString\" function");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
@@ -344,6 +350,17 @@ int main(int argc, char *argv[]){
                     printPolygon(tmpPolygon);
                     printf("\n|");
                     emptyPolygon(tmpPolygon);
+                    break;
+
+                case 6:
+                    printf("\n\n| Convex Hull of polygon 1 : ");
+                    tmpPolygon = convexhullPolygon(polygon1);
+                    printPolygon(tmpPolygon);
+                    tmpPolygon = emptyPolygon(tmpPolygon);
+                    printf("\n\n| Convex Hull of polygon 2 : ");
+                    tmpPolygon = convexhullPolygon(polygon2);
+                    printPolygon(tmpPolygon);
+                    tmpPolygon = emptyPolygon(tmpPolygon);
                     break;
 
                 case 42:
