@@ -556,7 +556,7 @@ Polygon angleSortPolygon (Polygon polygon, Point point)
     int i;
     float a1, a2; /* Temporary angles */
     Point projY = point; /* setting the projection of the point on the y axe */
-    projY.x = 0;
+    projY.x = 0 - (point.y == 0);
     if(polygon.size > 0)
      {
         sortedPoly = addPoint(sortedPoly, tmpElem1->value);
