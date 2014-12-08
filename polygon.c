@@ -542,7 +542,7 @@ float angleThreePoints(Point p1, Point p3, Point p2)
 }
 
 /**
- * Gives a sorted version of a polygon, in descendant angle order from the vector of a point with his projection on y
+ * Gives a sorted version of a polygon, in descendant angle order from the vector of a point comming fromm his left
  * polygon - the Polygon to sort
  * point - the Point defining the vector
  * Returns the sorted version of polygon
@@ -556,7 +556,7 @@ Polygon angleSortPolygon (Polygon polygon, Point point)
     int i;
     float a1, a2; /* Temporary angles */
     Point projY = point; /* setting the projection of the point on the y axe */
-    projY.x = 0 - (point.y == 0);
+    projY.x = point.y - 1;
     if(polygon.size > 0)
      {
         sortedPoly = addPoint(sortedPoly, tmpElem1->value);
@@ -618,7 +618,7 @@ Polygon convexhullPolygon (Polygon polygon)
         do
         {
             if ((tmpPoint.y > tmpElem->value.y) || (tmpPoint.y == tmpElem->value.y && tmpPoint.x > tmpElem->value.x)){
-                /* Selecting the point with the smallest y, and if two are equal, the smaller x */
+                /* Selecting the point with the smallest y, and if two are equal, the smallest x */
                 tmpPoint = tmpElem->value;
             }
             tmpElem = tmpElem->next;
@@ -626,8 +626,8 @@ Polygon convexhullPolygon (Polygon polygon)
         /* Stops when the head of the polygon is reached */
 
         convPoly = angleSortPolygon(polygon, tmpPoint);
-        /* Sorts the polygon with a descendant angle with the vector made from the point chose before and its projection on y*/
-        tmpElem = convPoly.head->next->next->next;
+        /* Sorts the polygon with a descendant angle with the vector made from the point chosen above and the point to its left*/
+        tmpElem = convPoly.head->next->next->next; /* Go to the 4th point */
         i = 4;
         while (tmpElem != convPoly.head)
         {
