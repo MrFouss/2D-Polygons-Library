@@ -605,55 +605,50 @@ Polygon angleSortPolygon (Polygon polygon, Point point)
  * polygon - the list of points
  * Return the convex hull of polygon
  */
-Polygon convexhullPolygon (Polygon polygon)
-{
+Polygon convexhullPolygon (Polygon polygon){
     Polygon convPoly = createPolygon(); /* The convex hull polygon */
-    if (polygon.size > 0)
-    {
+    if (polygon.size > 0){
         Element* tmpElem = polygon.head; /* Temporary pointer on an Element */
         Point tmpPoint = tmpElem->value; /* Temporary Point  */
         double angle;
         int i = 0; /* Counter for the position in the polygon */
 
-        do
-        {
+        do{
             if ((tmpPoint.y > tmpElem->value.y) || (tmpPoint.y == tmpElem->value.y && tmpPoint.x > tmpElem->value.x)){
                 /* Selecting the point with the smallest y, and if two are equal, the smallest x */
                 tmpPoint = tmpElem->value;
             }
             tmpElem = tmpElem->next;
-        }while(tmpElem != polygon.head);
+        } while (tmpElem != polygon.head);
         /* Stops when the head of the polygon is reached */
 
         convPoly = angleSortPolygon(polygon, tmpPoint);
         /* Sorts the polygon with a descendant angle with the vector made from the point chosen above and the point to its left*/
         tmpElem = convPoly.head->next->next->next; /* Go to the 4th point */
         i = 4;
-        while (tmpElem != convPoly.head)
-        {
+        while (tmpElem != convPoly.head){
             angle = (tmpElem->prev->value.x - tmpElem->prev->prev->value.x)*(tmpElem->value.y - tmpElem->prev->prev->value.y) - (tmpElem->prev->value.y - tmpElem->prev->prev->value.y)*(tmpElem->value.x - tmpElem->prev->prev->value.x);
-            if (angle < 0)
-            {
+            /* Computes the rotation direction using the scalar product */
+            if (angle < 0){
+                /* If the angle is counterclockwise, the previous point have to be deleted */
                 convPoly = removePoint(convPoly, i - 1);
                 tmpElem = tmpElem->next;
             }
             else if(angle == 0 )
             {
+                /* if the points are aligned, the point in the middle have to be deleted */
                 if (sqrt(pow(tmpElem->value.x - tmpPoint.x,2) + pow(tmpElem->value.y - tmpPoint.y,2)) <
                         sqrt(pow(tmpElem->prev->value.x - tmpPoint.x,2) + pow(tmpElem->prev->value.y - tmpPoint.y,2))
-                        &&  fabs(angleThreePoints(tmpElem->value, tmpElem->prev->value, tmpElem->prev->prev->value) - acos(-1)) > 0.000001  )
-                {
+                        &&  fabs(angleThreePoints(tmpElem->value, tmpElem->prev->value, tmpElem->prev->prev->value) - acos(-1)) > 0.000001  ){
                     tmpElem = tmpElem->next;
                     convPoly = removePoint(convPoly, i);
                 }
-                else
-                {
+                else{
                     convPoly = removePoint(convPoly, i - 1);
                     i--;
                 }
             }
-            else
-            {
+            else{
                 tmpElem = tmpElem->next;
                 i++;
             }
