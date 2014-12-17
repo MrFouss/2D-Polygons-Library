@@ -32,24 +32,27 @@ int main(int argc, char *argv[]){
     Polygon polygon1, polygon2, tmpPolygon;
 
 
+
         printf("\n---------------------------------------------------------");
         printf("\n|     WELCOME TO THIS 2D-POLYGON MANAGEMENT PROGRAM     |");
         printf("\n---------------------------------------------------------");
 
-        printf("\n\n---------------------------------");
-        printf("\n| Creation of the first polygon |");
-        printf("\n---------------------------------");
-
-        moveon = FALSE;
-
-        polygon1 = createPolygon();
 
         do{
 
+            printf("\n\n---------------------------------");
+            printf("\n| Creation of the first polygon |");
+            printf("\n---------------------------------");
+
+            moveon = FALSE;
+
+            polygon1 = createPolygon();
 
 
 
-        do{
+
+
+         do{
             printf("\n\n| What do you want to do?");
             printf("\n|------------------------");
             printf("\n| 1) Create a new point");
