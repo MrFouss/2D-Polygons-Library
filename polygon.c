@@ -342,15 +342,37 @@ Boolean isInsidePolygon (Polygon p1, Polygon p2){
     Boolean inside = TRUE;
 
     if (isPolygon(p1) && isPolygon(p2)){
-        Element* point; /* Pointer that will go through p1 */
-        point = p1.head;
+        Element* point1; /* Pointer that will go through p1 */
+        Element* point2; /* Pointer that will go through p2 */
+        Point tmpPoint;
+        point1 = p1.head;
+        point2 = p2.head;
 
         do{
-           if (containsPoint(p2, point->value) == FALSE){
+           if (containsPoint(p2, point1->value) == FALSE){
                 inside = FALSE;
            }
-           point = point->next;
-        } while (point != p1.head && inside == TRUE);
+           do{
+               /* Tests if the line between the point and the previous one is inside */
+               if(isOnTheLine(point2->value, point2->prev->value, point1->value)){
+                    if(isOnTheLine(point2->value, point2->prev->value, point1->prev->value) == FALSE){
+                        tmpPoint.x = (point1->value.x + point1->prev->value.x) / 2;
+                        tmpPoint.y = (point1->value.y + point1->prev->value.y) / 2;
+                        if (containsPoint(p2, tmpPoint) == FALSE){
+                            inside = FALSE;
+                        }
+                    }
+               }else{
+                   if(isOnTheLine(point2->value, point2->prev->value, point1->prev->value) == FALSE){
+                       if (intersectionSegments(point1->value, point1->prev->value, point2->value, point2->prev->value, NULL) == TRUE){
+                           inside = FALSE;
+                       }
+                   }
+               }
+            point2 = point2->next;
+           } while (point2 != p2.head);
+           point1 = point1->next;
+        } while (point1 != p1.head && inside == TRUE);
         /* Stops if the whole polygon has been analysed or if a point is outside */
     }
     return inside;
@@ -420,15 +442,24 @@ Boolean haveSameShapePolygons (Polygon p1, Polygon p2){
 Boolean isOutsidePolygon (Polygon p1, Polygon p2){
     Boolean outside = TRUE;
     if (isPolygon(p1) && isPolygon(p2)){
-        Element* point; /* To go trough p1 */
-        point = p1.head;
+        Element* point1; /* To go trough p1 */
+        Element* point2; /* to go trough p2 */
+        point1 = p1.head;
+        point2 = p2.head;
 
         do{
-           if (containsPoint(p2, point->value)){
+           if (containsPoint(p2, point1->value)){
                 outside = FALSE;
            }
-           point = point->next;
-        } while (point != p1.head && outside == TRUE);
+           do{
+               if(intersectionSegments(point1->value, point1->prev->value, point2->value, point2->prev->value, NULL) == TRUE){
+                   outside = FALSE;
+               }
+               point2 = point2->next;
+           } while (point2 != p2.head);
+
+           point1 = point1->next;
+        } while (point1 != p1.head && outside == TRUE);
         /* Stops if the whole polygon has been analysed or if a point is inside */
     }
     return outside;
@@ -453,14 +484,11 @@ Status containsPolygon (Polygon p1, Polygon p2){
                 return ENCLOSING;
             }
         }
-        else if(isOutsidePolygon(p1, p2)){
-            /* we need to check if p2 is in p1 */
-            if( isInsidePolygon(p2, p1)){
+        else if( isInsidePolygon(p2, p1)){
                 return INSIDE;
-            }
-            else{
-                return OUTSIDE;
-            }
+        }
+        else if(isOutsidePolygon(p1, p2)){
+            return OUTSIDE;
         }
         return INTERSECT;
     }
