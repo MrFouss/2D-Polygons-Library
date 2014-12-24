@@ -167,7 +167,7 @@ Status containsPolygon (Polygon p1, Polygon p2);
  * center - point of rotation of the polygon
  * angle - angle counterclockwise of rotation in radians
  */
-/*Polygon rotatePolygon (Polygon poly, Point center, float angle);*/
+Polygon rotatePolygon (Polygon poly, Point center, float angle);
 
 /**
  * Scales a polygon according to a factor

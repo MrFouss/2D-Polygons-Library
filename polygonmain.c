@@ -22,7 +22,7 @@
 
 int main(int argc, char *argv[]){
 
-    float scale;
+    float scale, angle;
     double x,y;
     Point tmpPoint, tmpPoint2;
     char restart;
@@ -226,6 +226,7 @@ int main(int argc, char *argv[]){
             printf("\n| 4) Translates each point of the polygons through a vector");
             printf("\n| 5) Displays the polygons with a different scale");
             printf("\n| 6) Displays the Convex Hull of the polygons");
+            printf("\n| 7) Displays the polygons rotated according to a specified");
             printf("\n| 42) Tests the \"toString\" function");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
@@ -366,6 +367,26 @@ int main(int argc, char *argv[]){
                     tmpPolygon = emptyPolygon(tmpPolygon);
                     break;
 
+                case 7:
+                    printf("\n| Rotation angle (in degrees): ");
+                    scanf("%f", &angle);
+                    printf("|");
+                     printf("\n| Rotation center:");
+                    printf("\n|     x = ");
+                    scanf("%lf", &x);
+                    printf("|     y = ");
+                    scanf("%lf", &y);
+                    printf("|");
+                    tmpPoint = createPoint(x, y);
+                    tmpPolygon = rotatePolygon(polygon1, tmpPoint, angle);
+                    printf("\n| Polygon 1 newly rotated: ");
+                    printPolygon(tmpPolygon);
+                    emptyPolygon(tmpPolygon);
+                    tmpPolygon = rotatePolygon(polygon2, tmpPoint, angle);
+                    printf("\n| Polygon 2 newly rotated: ");
+                    printPolygon(tmpPolygon);
+                    printf("\n|");
+                    emptyPolygon(tmpPolygon);
                 case 42:
                     printf("\n| Test of the \"toString\" function on the Polygon 1: ");
                     toStringSample = toString(polygon1);
