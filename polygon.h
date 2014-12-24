@@ -162,6 +162,12 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2);
 Status containsPolygon (Polygon p1, Polygon p2);
 
 /**
+ * Computes the union between the two specified polygons
+ * poly1, poly2 - the two polygons to merge
+ */
+Polygon unionPolygons (Polygon poly1, Polygon poly2);
+
+/**
  * Computes the rotation of a polygon according to a point and an angle in radians (counterclockwise)
  * poly - polygon about to be rotated
  * center - point of rotation of the polygon
@@ -223,6 +229,12 @@ Polygon centralSymmetry (Polygon p, Point s);
  * If the result is TRUE, the coordinates of the intersection point will be stored in the pointer i*
  */
 Boolean intersectionSegments (Point A1, Point A2, Point B1, Point B2, Point* i);
+
+/**
+ * Computes the length of a vector
+ * A, B - points composing the vector AB to study
+ */
+double lengthVector (Point A, Point B);
 
 /**
  * Displays int the console the coordinates of the specified point

@@ -496,6 +496,120 @@ Status containsPolygon (Polygon p1, Polygon p2){
 }
 
 /**
+ * Computes the union between the two specified polygons
+ * poly1, poly2 - the two polygons to merge
+ */
+Polygon unionPolygons (Polygon p1, Polygon p2){
+    Polygon resultPoly = createPolygon();
+    double minLength;
+    Element *closeP1, *closeP2, *tmpPointer1, *tmpPointer2;
+
+    if(isPolygon(p1) == FALSE && isPolygon(p2) == FALSE){
+        /* if both polygons are not real polygons, return an empty polygon */
+    }
+
+    else if(isPolygon(p1) == FALSE){
+        /* if only the first polygon is not a real polygon, return the second one */
+
+        tmpPointer2 = p2.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer2->value);
+            tmpPointer2 = tmpPointer2->next;
+        }while(tmpPointer2 != p2.head);
+    }
+
+    else if(isPolygon(p2) == FALSE){
+        /* if only the second polygon is not a real polygon, return the first one */
+
+        tmpPointer1 = p1.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        }while(tmpPointer1 != p1.head);
+    }
+
+    else if(areEqualPolygons(p1, p2) == TRUE){
+        /* if the polygons are the same, return the first one */
+
+        tmpPointer1 = p1.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        }while(tmpPointer1 != p1.head);
+    }
+
+    else if(haveSameShapePolygons(p1,p2) == TRUE){
+        /* if the polygons have the same shape, return the simplest onei (the one with the smallest amount of points) */
+
+        if(p1.size < p2.size){
+            tmpPointer1 = p1.head;
+
+            do{
+                resultPoly = addPoint(resultPoly, tmpPointer1->value);
+                tmpPointer1 = tmpPointer1->next;
+            }while(tmpPointer1 != p1.head);
+        }
+
+        else{
+            tmpPointer1 = p2.head;
+
+            do{
+                resultPoly = addPoint(resultPoly, tmpPointer1->value);
+                tmpPointer1 = tmpPointer1->next;
+            }while(tmpPointer1 != p2.head);
+        }
+    }
+
+    else if(isOutsidePolygon(p1,p2) && isOutsidePolygon(p2,p1)){
+        /* if the polygons don't intersect each other, return p1 && p2 */
+
+        tmpPointer1 = p1.head;
+        tmpPointer2 = p2.head;
+        closeP1 = p1.head;
+        closeP2 = p2.head;
+
+        minLength = lengthVector(tmpPointer1->value, tmpPointer2->value);
+
+        /* searches the points where the two polygons are the closest */
+        do{
+            do{
+                if(lengthVector(tmpPointer1->value, tmpPointer2->value) < minLength){
+                    minLength = lengthVector(tmpPointer1->value, tmpPointer2->value);
+                    closeP1 = tmpPointer1;
+                    closeP2 = tmpPointer2;
+                }
+
+                tmpPointer2 = tmpPointer2->next;
+            } while(tmpPointer2 != p2.head);
+
+            tmpPointer1 = tmpPointer1->next;
+        } while(tmpPointer1 != p1.head);
+
+        tmpPointer1 = closeP1;
+        tmpPointer2 = closeP2;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        } while(tmpPointer1 != closeP1);
+
+        resultPoly = addPoint(resultPoly, closeP1->value);
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer2->value);
+            tmpPointer2 = tmpPointer2->next;
+        } while(tmpPointer2 != closeP2);
+
+        resultPoly = addPoint(resultPoly, closeP2->value);
+    }
+
+    return resultPoly;
+}
+
+/**
  * Computes the rotation of a polygon according to a point and an angle in radians (counterclockwise)
  * poly - polygon about to be rotated
  * center - point of rotation of the polygon
@@ -764,6 +878,22 @@ Boolean intersectionSegments (Point A1, Point A2, Point B1, Point B2, Point* i){
     else{
         return FALSE;
     }
+}
+
+/**
+ * Computes the length of a vector
+ * A, B - points composing the vector to study
+ */
+double lengthVector (Point A, Point B){
+    Point vector;
+    double length;
+
+    vector.x = B.x - A.x;
+    vector.y = B.y - A.y;
+
+    length = sqrt(vector.x*vector.x + vector.y*vector.y);
+
+    return length;
 }
 
 /**
