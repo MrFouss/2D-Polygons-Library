@@ -16,7 +16,7 @@
 #include <boolean.h>
 #include <polygon.h>
 #include <useful_fcts.h>
-
+#include <math.h>
 
 /* ----- MAIN ----- */
 
@@ -226,7 +226,7 @@ int main(int argc, char *argv[]){
             printf("\n| 4) Translates each point of the polygons through a vector");
             printf("\n| 5) Displays the polygons with a different scale");
             printf("\n| 6) Displays the Convex Hull of the polygons");
-            printf("\n| 7) Displays the polygons rotated according to a specified");
+            printf("\n| 7) Displays the polygons rotated according to a specified angle");
             printf("\n| 42) Tests the \"toString\" function");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
@@ -370,8 +370,9 @@ int main(int argc, char *argv[]){
                 case 7:
                     printf("\n| Rotation angle (in degrees): ");
                     scanf("%f", &angle);
+                    angle = (angle * M_PI)/180;
                     printf("|");
-                     printf("\n| Rotation center:");
+                    printf("\n| Rotation center:");
                     printf("\n|     x = ");
                     scanf("%lf", &x);
                     printf("|     y = ");
