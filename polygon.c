@@ -502,7 +502,25 @@ Status containsPolygon (Polygon p1, Polygon p2){
  * angle - angle counterclockwise of rotation in radians
  */
 Polygon rotatePolygon (Polygon poly, Point center, float angle){
+    Element* tmpPointer = poly.head;
+    Polygon resultPoly = createPolygon();
+    Point tmpVector, tmpPoint;
 
+    if(poly.size != 0){
+        do{
+            tmpVector.x = tmpPointer->value.x - center.x;
+            tmpVector.y = tmpPointer->value.y - center.y;
+
+            tmpPoint.x = cos(angle)*tmpVector.x - sin(angle)*tmpVector.y + center.x;
+            tmpPoint.y = sin(angle)*tmpVector.x + cos(angle)*tmpVector.y + center.y;
+
+            resultPoly = addPoint(resultPoly, tmpPoint);
+
+            tmpPointer = tmpPointer->next;
+        } while(tmpPointer != poly.head);
+    }
+
+    return resultPoly;
 }
 
 /**
@@ -516,19 +534,21 @@ Polygon scalePolygon (Polygon poly, float factor){
     Element* tmp = poly.head->next;
     Polygon resultPoly = createPolygon();
 
-    resultPoly = addPoint(resultPoly, poly.head->value);
+    if(poly.size != 0){
+        resultPoly = addPoint(resultPoly, poly.head->value);
 
-    do{
-        vector.x = factor * (tmp->value.x - poly.head->value.x);
-        vector.y = factor * (tmp->value.y - poly.head->value.y);
+        do{
+            vector.x = factor * (tmp->value.x - poly.head->value.x);
+            vector.y = factor * (tmp->value.y - poly.head->value.y);
 
-        tmpPoint.x = vector.x + poly.head->value.x;
-        tmpPoint.y = vector.y + poly.head->value.y;
+            tmpPoint.x = vector.x + poly.head->value.x;
+            tmpPoint.y = vector.y + poly.head->value.y;
 
-        resultPoly = addPoint(resultPoly, tmpPoint);
+            resultPoly = addPoint(resultPoly, tmpPoint);
 
-        tmp = tmp->next;
-    } while(tmp != poly.head);
+            tmp = tmp->next;
+        } while(tmp != poly.head);
+    }
 
     return resultPoly;
 }

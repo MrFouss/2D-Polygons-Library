@@ -9,6 +9,10 @@
  * Deadline of the project: 01/05/2015
  */
 
+/* ----- DEFINE ----- */
+
+#define PI 3.14159265
+
 /* ----- INCLUDE ----- */
 
 #include <stdio.h>
@@ -370,7 +374,7 @@ int main(int argc, char *argv[]){
                 case 7:
                     printf("\n| Rotation angle (in degrees): ");
                     scanf("%f", &angle);
-                    angle = (angle * M_PI)/180;
+                    angle = (angle * PI)/180.0;
                     printf("|");
                     printf("\n| Rotation center:");
                     printf("\n|     x = ");
@@ -388,6 +392,8 @@ int main(int argc, char *argv[]){
                     printPolygon(tmpPolygon);
                     printf("\n|");
                     emptyPolygon(tmpPolygon);
+                    break;
+
                 case 42:
                     printf("\n| Test of the \"toString\" function on the Polygon 1: ");
                     toStringSample = toString(polygon1);
