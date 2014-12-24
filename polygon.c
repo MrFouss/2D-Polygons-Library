@@ -468,6 +468,16 @@ Status containsPolygon (Polygon p1, Polygon p2){
 }
 
 /**
+ * Computes the rotation of a polygon according to a point and an angle in radians (counterclockwise)
+ * poly - polygon about to be rotated
+ * center - point of rotation of the polygon
+ * angle - angle counterclockwise of rotation in radians
+ */
+/*Polygon rotatePolygon (Polygon poly, Point center, float angle){
+
+}*/
+
+/**
  * Scales a polygon according to a factor
  * poly - specified polygon to scale
  * factor - scale factor to use
