@@ -342,15 +342,37 @@ Boolean isInsidePolygon (Polygon p1, Polygon p2){
     Boolean inside = TRUE;
 
     if (isPolygon(p1) && isPolygon(p2)){
-        Element* point; /* Pointer that will go through p1 */
-        point = p1.head;
+        Element* point1; /* Pointer that will go through p1 */
+        Element* point2; /* Pointer that will go through p2 */
+        Point tmpPoint;
+        point1 = p1.head;
+        point2 = p2.head;
 
         do{
-           if (containsPoint(p2, point->value) == FALSE){
+           if (containsPoint(p2, point1->value) == FALSE){
                 inside = FALSE;
            }
-           point = point->next;
-        } while (point != p1.head && inside == TRUE);
+           do{
+               /* Tests if the line between the point and the previous one is inside */
+               if(isOnTheLine(point2->value, point2->prev->value, point1->value)){
+                    if(isOnTheLine(point2->value, point2->prev->value, point1->prev->value) == FALSE){
+                        tmpPoint.x = (point1->value.x + point1->prev->value.x) / 2;
+                        tmpPoint.y = (point1->value.y + point1->prev->value.y) / 2;
+                        if (containsPoint(p2, tmpPoint) == FALSE){
+                            inside = FALSE;
+                        }
+                    }
+               }else{
+                   if(isOnTheLine(point2->value, point2->prev->value, point1->prev->value) == FALSE){
+                       if (intersectionSegments(point1->value, point1->prev->value, point2->value, point2->prev->value, NULL) == TRUE){
+                           inside = FALSE;
+                       }
+                   }
+               }
+            point2 = point2->next;
+           } while (point2 != p2.head);
+           point1 = point1->next;
+        } while (point1 != p1.head && inside == TRUE);
         /* Stops if the whole polygon has been analysed or if a point is outside */
     }
     return inside;
@@ -420,15 +442,24 @@ Boolean haveSameShapePolygons (Polygon p1, Polygon p2){
 Boolean isOutsidePolygon (Polygon p1, Polygon p2){
     Boolean outside = TRUE;
     if (isPolygon(p1) && isPolygon(p2)){
-        Element* point; /* To go trough p1 */
-        point = p1.head;
+        Element* point1; /* To go trough p1 */
+        Element* point2; /* to go trough p2 */
+        point1 = p1.head;
+        point2 = p2.head;
 
         do{
-           if (containsPoint(p2, point->value)){
+           if (containsPoint(p2, point1->value)){
                 outside = FALSE;
            }
-           point = point->next;
-        } while (point != p1.head && outside == TRUE);
+           do{
+               if(intersectionSegments(point1->value, point1->prev->value, point2->value, point2->prev->value, NULL) == TRUE){
+                   outside = FALSE;
+               }
+               point2 = point2->next;
+           } while (point2 != p2.head);
+
+           point1 = point1->next;
+        } while (point1 != p1.head && outside == TRUE);
         /* Stops if the whole polygon has been analysed or if a point is inside */
     }
     return outside;
@@ -453,14 +484,11 @@ Status containsPolygon (Polygon p1, Polygon p2){
                 return ENCLOSING;
             }
         }
-        else if(isOutsidePolygon(p1, p2)){
-            /* we need to check if p2 is in p1 */
-            if( isInsidePolygon(p2, p1)){
+        else if( isInsidePolygon(p2, p1)){
                 return INSIDE;
-            }
-            else{
-                return OUTSIDE;
-            }
+        }
+        else if(isOutsidePolygon(p1, p2)){
+            return OUTSIDE;
         }
         return INTERSECT;
     }
@@ -605,55 +633,50 @@ Polygon angleSortPolygon (Polygon polygon, Point point)
  * polygon - the list of points
  * Return the convex hull of polygon
  */
-Polygon convexhullPolygon (Polygon polygon)
-{
+Polygon convexhullPolygon (Polygon polygon){
     Polygon convPoly = createPolygon(); /* The convex hull polygon */
-    if (polygon.size > 0)
-    {
+    if (polygon.size > 0){
         Element* tmpElem = polygon.head; /* Temporary pointer on an Element */
         Point tmpPoint = tmpElem->value; /* Temporary Point  */
         double angle;
         int i = 0; /* Counter for the position in the polygon */
 
-        do
-        {
+        do{
             if ((tmpPoint.y > tmpElem->value.y) || (tmpPoint.y == tmpElem->value.y && tmpPoint.x > tmpElem->value.x)){
                 /* Selecting the point with the smallest y, and if two are equal, the smallest x */
                 tmpPoint = tmpElem->value;
             }
             tmpElem = tmpElem->next;
-        }while(tmpElem != polygon.head);
+        } while (tmpElem != polygon.head);
         /* Stops when the head of the polygon is reached */
 
         convPoly = angleSortPolygon(polygon, tmpPoint);
         /* Sorts the polygon with a descendant angle with the vector made from the point chosen above and the point to its left*/
         tmpElem = convPoly.head->next->next->next; /* Go to the 4th point */
         i = 4;
-        while (tmpElem != convPoly.head)
-        {
+        while (tmpElem != convPoly.head){
             angle = (tmpElem->prev->value.x - tmpElem->prev->prev->value.x)*(tmpElem->value.y - tmpElem->prev->prev->value.y) - (tmpElem->prev->value.y - tmpElem->prev->prev->value.y)*(tmpElem->value.x - tmpElem->prev->prev->value.x);
-            if (angle < 0)
-            {
+            /* Computes the rotation direction using the scalar product */
+            if (angle < 0){
+                /* If the angle is counterclockwise, the previous point have to be deleted */
                 convPoly = removePoint(convPoly, i - 1);
                 tmpElem = tmpElem->next;
             }
             else if(angle == 0 )
             {
+                /* if the points are aligned, the point in the middle have to be deleted */
                 if (sqrt(pow(tmpElem->value.x - tmpPoint.x,2) + pow(tmpElem->value.y - tmpPoint.y,2)) <
                         sqrt(pow(tmpElem->prev->value.x - tmpPoint.x,2) + pow(tmpElem->prev->value.y - tmpPoint.y,2))
-                        &&  fabs(angleThreePoints(tmpElem->value, tmpElem->prev->value, tmpElem->prev->prev->value) - acos(-1)) > 0.000001  )
-                {
+                        &&  fabs(angleThreePoints(tmpElem->value, tmpElem->prev->value, tmpElem->prev->prev->value) - acos(-1)) > 0.000001  ){
                     tmpElem = tmpElem->next;
                     convPoly = removePoint(convPoly, i);
                 }
-                else
-                {
+                else{
                     convPoly = removePoint(convPoly, i - 1);
                     i--;
                 }
             }
-            else
-            {
+            else{
                 tmpElem = tmpElem->next;
                 i++;
             }
