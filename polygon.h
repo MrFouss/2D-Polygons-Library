@@ -197,6 +197,12 @@ Boolean isOutsidePolygon (Polygon p1, Polygon p2);
 Boolean isPolygon (Polygon polygon);
 
 /**
+ * Computes the length of a vector
+ * A, B - points composing the vector AB to study
+ */
+double lengthVector (Point A, Point B);
+
+/**
  * Displays int the console the coordinates of the specified point
  * point - point containing the coordinates to display
  */
@@ -246,5 +252,11 @@ char* toString (Polygon polygon);
  * Returns the translated polygon
  */
 Polygon translatePolygon (Polygon poly, Point A, Point B);
+
+/**
+ * Computes the union between the two specified polygons
+ * poly1, poly2 - the two polygons to merge
+ */
+Polygon unionPolygons (Polygon poly1, Polygon poly2);
 
 #endif

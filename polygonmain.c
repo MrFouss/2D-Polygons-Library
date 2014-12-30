@@ -230,6 +230,7 @@ int main(int argc, char *argv[]){
             printf("\n| 5) Displays the polygons with a different scale");
             printf("\n| 6) Displays the Convex Hull of the polygons");
             printf("\n| 7) Displays the polygons rotated according to a specified angle");
+            printf("\n| 8) Displays the union of the two polygons");
             printf("\n| 42) Tests the \"toString\" function");
             printf("\n| 0) I don't want to play with the polygons anymore...");
             printf("\n| Choice: ");
@@ -391,6 +392,14 @@ int main(int argc, char *argv[]){
                     printPolygon(tmpPolygon);
                     printf("\n|");
                     emptyPolygon(tmpPolygon);
+                    break;
+
+                case 8:
+                    printf("\n| Union of the two polygons : ");
+                    tmpPolygon = unionPolygons(polygon1, polygon2);
+                    printPolygon(tmpPolygon);
+                    tmpPolygon = emptyPolygon(tmpPolygon);
+                    printf("\n|");
                     break;
 
                 case 42:
