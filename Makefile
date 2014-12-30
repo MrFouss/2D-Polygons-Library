@@ -12,7 +12,8 @@
 # This file is used to simplify the compilation's operation.
 # Thanks to this file, we only have to use the "make" function in the terminal.
 # The "make" function can be followed by an argument:
-# 	"run":		simply compiles the sources and runs the program;
+# 	"all":		simply compiles everything and runs the program;
+# 	"lib":		generates the libPolygon.so binary code
 # 	"memory":	compiles the sources and runs the program with a memory checker;
 # 	"debug":	compiles the sources and runs the program with the gcc debugger;
 # 	"clean":	cleans all temporary compiled files
@@ -46,7 +47,7 @@ EXESOURCEOFILE = $(EXESOURCE:=.o)
 # Export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:.
 
 # Running the program
-run: $(TARGET)
+all: $(TARGET)
 	@echo "\n Executing the executable " $(TARGET)
 	./$(TARGET)
 
@@ -64,6 +65,11 @@ debug: $(TARGET)
 $(TARGET): $(EXESOURCEOFILE) $(ALIBTARGET) $(BLIBTARGET)
 	@echo "\n Generating the executable " $@
 	$(CXX) $(EXESOURCEOFILE) -l$(ALIBTARGET2) -l$(BLIBTARGET2) $(LIBSDIR) -o $(TARGET)
+
+# Generating the libPolygon.so binary code
+lib: $(ALIBSOURCEOFILE)
+	@echo "\n Generating the library libPolygon.so only"
+	$(CXX) $(CFLAGS) -shared $(ALIBSOURCEOFILE) -o $(ALIBTARGET)
 
 # Generating the library binary code
 $(ALIBTARGET): $(ALIBSOURCEOFILE)
