@@ -1,12 +1,19 @@
 /**
- * Maxime Brodat
- * maxime.brodat@utbm.fr
- * maxime.brodat@fouss.fr
+ * ######################
+ * # A14 - LO27 PROJECT #
+ * ######################
  *
- * Stéphane Perrez
- * stephane.perrez@utbm.fr
+ * Created by Maxime Brodat and Stéphane Perrez
  *
  * Deadline of the project: 01/05/2015
+ */
+
+/**
+ * DESCRIPTION OF THE FILE:
+ * ------------------------
+ * This file is used to introduce the "Status" data type, used to compare two polygons' locations.
+ * Since no new specifications where given, we decided to add a new status called "SAMESHAPE".
+ * This status defines two polygons that take the exact same space, but are not equal.
  */
 
 #ifndef STATUS_H
@@ -29,7 +36,6 @@ typedef enum
     EQUAL = 4, /* if both polygons are exactly equal */
     SAMESHAPE = 5 /* if both polygons have the same shape but aren't equal */
 } Status;
-
 
 #endif
 

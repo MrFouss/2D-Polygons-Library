@@ -1,12 +1,17 @@
 /**
- * Maxime Brodat
- * maxime.brodat@utbm.fr
- * maxime.brodat@fouss.fr
+ * ######################
+ * # A14 - LO27 PROJECT #
+ * ######################
  *
- * Stéphane Perrez
- * stéphane.perrez@utbm.fr
+ * Created by Maxime Brodat and Stéphane Perrez
  *
  * Deadline of the project: 01/05/2015
+ */
+
+/**
+ * DESCRIPTION OF THE FILE:
+ * ------------------------
+ * This is the main file, containing only a path to the menu.
  */
 
 /* ----- DEFINE ----- */
@@ -17,10 +22,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <boolean.h>
-#include <polygon.h>
 #include <useful_fcts.h>
+#include <boolean.h>
 #include <math.h>
+#include <status_enum.h>
+#include <polygon.h>
 
 /* ----- MAIN ----- */
 
@@ -35,28 +41,20 @@ int main(int argc, char *argv[]){
     int choice, choice2;
     Polygon polygon1, polygon2, tmpPolygon;
 
+    printf("\n---------------------------------------------------------");
+    printf("\n|     WELCOME TO THIS 2D-POLYGON MANAGEMENT PROGRAM     |");
+    printf("\n---------------------------------------------------------");
 
+    do{
+        printf("\n\n---------------------------------");
+        printf("\n| Creation of the first polygon |");
+        printf("\n---------------------------------");
 
-        printf("\n---------------------------------------------------------");
-        printf("\n|     WELCOME TO THIS 2D-POLYGON MANAGEMENT PROGRAM     |");
-        printf("\n---------------------------------------------------------");
+        moveon = FALSE;
 
+        polygon1 = createPolygon();
 
         do{
-
-            printf("\n\n---------------------------------");
-            printf("\n| Creation of the first polygon |");
-            printf("\n---------------------------------");
-
-            moveon = FALSE;
-
-            polygon1 = createPolygon();
-
-
-
-
-
-         do{
             printf("\n\n| What do you want to do?");
             printf("\n|------------------------");
             printf("\n| 1) Create a new point");
@@ -107,6 +105,7 @@ int main(int argc, char *argv[]){
                     if(polygon1.size == 0){
                         printf("\n\t| The polygon is now empty");
                     }
+
                     else{
                         printf("\n\t| An error occured while emptying the polygon");
                     }
@@ -128,7 +127,7 @@ int main(int argc, char *argv[]){
 
         } while(moveon == FALSE);
 
-	    moveon = FALSE;
+        moveon = FALSE;
 
         printf("\n\n----------------------------------");
         printf("\n| Creation of the second polygon |");

@@ -1,12 +1,21 @@
-# Maxime Brodat
-# maxime.brodat@utbm.fr
-# maxime.brodat@fouss.fr
-#
-# Stéphane Perrez
-# stéphane.perrez@utbm.fr
+######################
+# A14 - LO27 PROJECT #
+######################
+
+# Created by Nicolas Gaud
+# Modified by Maxime Brodat and Stéphane Perrez
 #
 # Deadline of the project: 01/05/2015
 
+# DESCRIPTION OF THE FILE:
+# ------------------------
+# This file is used to simplify the compilation's operation.
+# Thanks to this file, we only have to use the "make" function in the terminal.
+# The "make" function can be followed by an argument:
+# 	"run":		simply compiles the sources and runs the program;
+# 	"memory":	compiles the sources and runs the program with a memory checker;
+# 	"debug":	compiles the sources and runs the program with the gcc debugger;
+# 	"clean":	cleans all temporary compiled files
 
 # My general makefile template
 CXX = gcc

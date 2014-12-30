@@ -1,7 +1,7 @@
-2D Polygons Library
-===================
+A14 - LO27 Project: 2D Polygons Library
+=======================================
 
-A library use (in C) used to manage 2D polygons.
+A C library used to manage 2D polygons.
 
 Deadline of the project: 01/05/2015
 

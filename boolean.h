@@ -1,12 +1,17 @@
 /**
- * Maxime Brodat
- * maxime.brodat@utbm.fr
- * maxime.brodat@fouss.fr
+ * ######################
+ * # A14 - LO27 PROJECT #
+ * ######################
  *
- * Stéphane Perrez
- * stéphane.perrez@utbm.fr
+ * Created by Maxime Brodat and Stéphane Perrez
  *
  * Deadline of the project: 01/05/2015
+ */
+
+/**
+ * DESCRIPTION OF THE FILE:
+ * ------------------------
+ * This file is used to introduce the classic boolean data type.
  */
 
 #ifndef BOOLEAN_H
