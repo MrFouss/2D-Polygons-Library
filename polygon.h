@@ -253,10 +253,4 @@ char* toString (Polygon polygon);
  */
 Polygon translatePolygon (Polygon poly, Point A, Point B);
 
-/**
- * Computes the union between the two specified polygons
- * poly1, poly2 - the two polygons to merge
- */
-Polygon unionPolygons (Polygon poly1, Polygon poly2);
-
 #endif
