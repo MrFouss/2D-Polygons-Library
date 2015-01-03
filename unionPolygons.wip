@@ -74,7 +74,7 @@ Polygon unionPolygons (Polygon p1, Polygon p2){
     }
 
     else if(haveSameShapePolygons(p1,p2) == TRUE){
-    /* if the polygons have the same shape, return the simplest onei (the one with the smallest amount of points) */
+    /* if the polygons have the same shape, return the simplest one (the one with the smallest amount of points) */
 
         if(p1.size < p2.size){
             tmpPointer1 = p1.head;
