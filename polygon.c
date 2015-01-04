@@ -59,7 +59,7 @@ Polygon addPoint (Polygon polygon, Point point){
 }
 
 /**
- * Gives a sorted version of a polygon, in ascendant angle order from the vector of a point comming fromm his left
+ * Gives a sorted version of a polygon, in ascendant angle order from the vector of a point coming from his left
  * polygon - the Polygon to sort
  * point - the Point defining the vector
  * Returns the sorted version of polygon
@@ -321,7 +321,7 @@ Status containsPolygon (Polygon p1, Polygon p2){
 }
 
 /**
- * Compute the convex hull of a list of point
+ * Computes the convex hull of a list of point
  * polygon - the list of points
  * Return the convex hull of polygon
  */

@@ -13,7 +13,7 @@
  * ------------------------
  * This file is used to introduce the "Status" data type, used to compare two polygons' locations.
  * Since no new specifications where given, we decided to add a new status called "SAMESHAPE".
- * This status defines two polygons that take the exact same space, but are not equal.
+ * This status defines two polygons that take the exact same space, but can't be defined as equal.
  */
 
 #ifndef STATUS_H
