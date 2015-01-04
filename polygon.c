@@ -72,7 +72,7 @@ Polygon angleSortPolygon (Polygon polygon, Point point)
     Element* newElem = NULL; /* Pointer on futur new elements */
     int i;
     float a1, a2; /* Temporary angles */
-    Point projY = point; /* setting the projection of the point on the y axe */
+    Point projY = point; /* setting the point to the left creating a segment to have an angle */
     projY.x = projY.x - 1;
     if(polygon.size > 0){
         sortedPoly = addPoint(sortedPoly, tmpElem1->value);
