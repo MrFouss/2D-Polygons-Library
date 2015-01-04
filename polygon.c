@@ -59,7 +59,7 @@ Polygon addPoint (Polygon polygon, Point point){
 }
 
 /**
- * Gives a sorted version of a polygon, in descendant angle order from the vector of a point comming fromm his left
+ * Gives a sorted version of a polygon, in ascendant angle order from the vector of a point comming fromm his left
  * polygon - the Polygon to sort
  * point - the Point defining the vector
  * Returns the sorted version of polygon
@@ -73,7 +73,7 @@ Polygon angleSortPolygon (Polygon polygon, Point point)
     int i;
     float a1, a2; /* Temporary angles */
     Point projY = point; /* setting the projection of the point on the y axe */
-    projY.x = point.y - 1;
+    projY.x = projY.x - 1;
     if(polygon.size > 0){
         sortedPoly = addPoint(sortedPoly, tmpElem1->value);
         tmpElem1 = tmpElem1->next;
@@ -132,8 +132,8 @@ float angleThreePoints(Point p1, Point p2, Point p3)
     }
     else
     {
-        angle = (p1.x - p3.x)*(p2.x - p3.x) + (p1.y - p3.y)*(p2.y - p3.y);
-        angle = angle/(sqrt(pow((p1.x - p3.x),2) + pow((p1.y - p3.y),2))*sqrt(pow((p2.x - p3.x),2)+pow((p2.y - p3.y),2)));
+        angle = (p1.x - p2.x)*(p3.x - p2.x) + (p1.y - p2.y)*(p3.y - p2.y);
+        angle = angle/(sqrt(pow((p1.x - p2.x),2) + pow((p1.y - p2.y),2))*sqrt(pow((p3.x - p2.x),2)+pow((p3.y - p2.y),2)));
         angle = acos(angle);
     }
     return angle;
@@ -344,8 +344,8 @@ Polygon convexhullPolygon (Polygon polygon){
 
         convPoly = angleSortPolygon(polygon, tmpPoint);
         /* Sorts the polygon with a descendant angle with the vector made from the point chosen above and the point to its left*/
-        tmpElem = convPoly.head->next->next->next; /* Go to the 4th point */
-        i = 4;
+        tmpElem = convPoly.head->next->next; /* Go to the 3rd point */
+        i = 3;
         while (tmpElem != convPoly.head){
             angle = (tmpElem->prev->value.x - tmpElem->prev->prev->value.x)*(tmpElem->value.y - tmpElem->prev->prev->value.y) - (tmpElem->prev->value.y - tmpElem->prev->prev->value.y)*(tmpElem->value.x - tmpElem->prev->prev->value.x);
             /* Computes the rotation direction using the scalar product */
@@ -1010,8 +1010,6 @@ Polygon unionPolygons (Polygon p1, Polygon p2){
             tmpPoly = addPoint(tmpPoly, tmpPointer2->value);
             tmpPointer2 = tmpPointer2->next;
         } while(tmpPointer2 != p2.head);
-
-        printPolygon(tmpPoly);
 
         resultPoly = convexhullPolygon(tmpPoly);
     }

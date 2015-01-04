@@ -232,7 +232,7 @@ int main(int argc, char *argv[]){
             printf("\n| 7) Displays the polygons rotated according to a specified angle");
             printf("\n| 8) Displays the union of the two polygons");
             printf("\n| 42) Tests the \"toString\" function");
-            printf("\n| 0) I don't want to play with the polygons anymore...");
+            printf("\n| 0) I don't want to play with these polygons anymore...");
             printf("\n| Choice: ");
             scanf("%d",&choice);
             emptBuff();
