@@ -862,3 +862,159 @@ Polygon translatePolygon (Polygon poly, Point A, Point B){
 
     return resultPoly;
 }
+
+/**
+ * Computes the union between the two specified polygons
+ * poly1, poly2 - the two polygons to merge
+ */
+Polygon unionPolygons (Polygon p1, Polygon p2){
+    Polygon resultPoly = createPolygon(), tmpPoly = createPolygon();
+    double minLength;
+    Element *closeP1, *closeP2, *tmpPointer1, *tmpPointer2;
+
+    if(isPolygon(p1) == FALSE && isPolygon(p2) == FALSE){
+    /* if both polygons are not real polygons, return an empty polygon */
+    }
+
+    else if(isPolygon(p1) == FALSE){
+    /* if only the first polygon is not a real polygon, return the second one */
+
+        tmpPointer2 = p2.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer2->value);
+            tmpPointer2 = tmpPointer2->next;
+        }while(tmpPointer2 != p2.head);
+    }
+
+    else if(isPolygon(p2) == FALSE){
+    /* if only the second polygon is not a real polygon, return the first one */
+
+        tmpPointer1 = p1.head;
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        }while(tmpPointer1 != p1.head);
+    }
+
+    else if(containsPolygon(p1, p2) == EQUAL){
+    /* if the polygons are the same, return the first one */
+
+        tmpPointer1 = p1.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        }while(tmpPointer1 != p1.head);
+    }
+
+    else if(containsPolygon(p1, p2) == SAMESHAPE){
+    /* if the polygons have the same shape, return the simplest one (the one with the smallest amount of points) */
+
+        if(p1.size < p2.size){
+            tmpPointer1 = p1.head;
+
+            do{
+                resultPoly = addPoint(resultPoly, tmpPointer1->value);
+                tmpPointer1 = tmpPointer1->next;
+            }while(tmpPointer1 != p1.head);
+        }
+
+        else{
+            tmpPointer1 = p2.head;
+
+            do{
+                resultPoly = addPoint(resultPoly, tmpPointer1->value);
+                tmpPointer1 = tmpPointer1->next;
+            }while(tmpPointer1 != p2.head);
+        }
+    }
+
+    else if(containsPolygon(p1,p2) == ENCLOSING){
+    /* if the first polygon is fully inside the second one, return the second one */
+
+        tmpPointer2 = p2.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer2->value);
+            tmpPointer2 = tmpPointer2->next;
+        } while(tmpPointer2 != p2.head);
+    }
+
+    else if(containsPolygon(p1,p2) == INSIDE){
+    /* if the second polygon is fully inside the first one, return the first one */
+
+        tmpPointer1 = p1.head;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        } while(tmpPointer1 != p1.head);
+    }
+
+    else if(containsPolygon(p1, p2) == OUTSIDE  && containsPolygon(p2,p1) == OUTSIDE){
+    /* if the polygons don't intersect each other, return p1 && p2 */
+
+        tmpPointer1 = p1.head;
+        tmpPointer2 = p2.head;
+        closeP1 = p1.head;
+        closeP2 = p2.head;
+
+        minLength = lengthVector(tmpPointer1->value, tmpPointer2->value);
+
+        /* searches the points where the two polygons are the closest */
+        do{
+            do{
+                if(lengthVector(tmpPointer1->value, tmpPointer2->value) < minLength){
+                    minLength = lengthVector(tmpPointer1->value, tmpPointer2->value);
+                    closeP1 = tmpPointer1;
+                    closeP2 = tmpPointer2;
+                }
+
+                tmpPointer2 = tmpPointer2->next;
+            } while(tmpPointer2 != p2.head);
+
+            tmpPointer1 = tmpPointer1->next;
+        } while(tmpPointer1 != p1.head);
+
+        tmpPointer1 = closeP1;
+        tmpPointer2 = closeP2;
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        } while(tmpPointer1 != closeP1);
+
+        resultPoly = addPoint(resultPoly, closeP1->value);
+
+        do{
+            resultPoly = addPoint(resultPoly, tmpPointer2->value);
+            tmpPointer2 = tmpPointer2->next;
+        } while(tmpPointer2 != closeP2);
+
+        resultPoly = addPoint(resultPoly, closeP2->value);
+    }
+
+    else if(containsPolygon(p1,p2) == INTERSECT){
+    /* if the polygons intersect each other, return the convexhull of the union of the polygons */
+
+        tmpPointer1 = p1.head;
+        tmpPointer2 = p2.head;
+
+        do{
+            tmpPoly = addPoint(tmpPoly, tmpPointer1->value);
+            tmpPointer1 = tmpPointer1->next;
+        } while(tmpPointer1 != p1.head);
+
+        do{
+            tmpPoly = addPoint(tmpPoly, tmpPointer2->value);
+            tmpPointer2 = tmpPointer2->next;
+        } while(tmpPointer2 != p2.head);
+
+        printPolygon(tmpPoly);
+
+        resultPoly = convexhullPolygon(tmpPoly);
+    }
+
+    return resultPoly;
+}
